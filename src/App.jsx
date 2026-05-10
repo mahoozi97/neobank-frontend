@@ -8,6 +8,7 @@ import { SignUp } from "./pages/auth/SignUp";
 import { SignIn } from "./pages/auth/SignIn";
 import { Dashboard } from "./pages/user/Dashboard";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { Footer } from "./components/Footer";
 
 export const App = () => {
   const [user, setUser] = useState(null);
@@ -84,6 +85,7 @@ export const App = () => {
           <Route path="*" element={<h1>Page not found 404</h1>} />
         </Route>
       </Routes>
+      <Footer />
     </>
   );
 };
