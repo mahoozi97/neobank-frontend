@@ -110,6 +110,31 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
                     <span className="is-drawer-close:hidden">Dashboard</span>
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    to={"/profile"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Profile"
+                  >
+                    {/* Profile icon */}
+                    <svg
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="size-4"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                    <span className="is-drawer-close:hidden">Profile</span>
+                  </Link>
+                </li>
+
                 <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"

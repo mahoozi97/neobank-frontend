@@ -9,6 +9,9 @@ import { SignIn } from "./pages/auth/SignIn";
 import { Dashboard } from "./pages/user/Dashboard";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { Footer } from "./components/Footer";
+import { Profile } from "./pages/user/Profile";
+import { DocumentUploadForm } from "./pages/user/DocumentUploadForm";
+import { AccountForm } from "./pages/user/AccountForm";
 
 export const App = () => {
   const [user, setUser] = useState(null);
@@ -93,7 +96,13 @@ export const App = () => {
 
           {/* USER */}
           <Route element={<UserRoute user={user} />}>
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard user={user} />} />
+            <Route path="profile" element={<Profile user={user} />} />
+            <Route
+              path="upload-kyc"
+              element={<DocumentUploadForm user={user} />}
+            />
+            <Route path="open-account" element={<AccountForm user={user} />} />
           </Route>
 
           {/* ADMIN */}

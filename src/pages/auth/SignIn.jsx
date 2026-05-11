@@ -6,7 +6,6 @@ import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const SignIn = ({ setUser, setAdmin }) => {
-  const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
