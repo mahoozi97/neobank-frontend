@@ -7,8 +7,9 @@ const authHeader = () => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-const uploadKyc = (data) => {
-  const res = axios.post(`${BASE_URL / kyc / upload}`, data, authHeader());
+const uploadKyc = async (data) => {
+  const res = await axios.post(`${BASE_URL}/kyc/upload`, data, authHeader());
+  return res.data
 };
 
 export { uploadKyc };
