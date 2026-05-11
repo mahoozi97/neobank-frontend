@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { Drawer } from "./components/Drawer";
 import { Homepage } from "./pages/Homepage";
 import { UserRoute } from "./components/UserRoute";
@@ -13,7 +13,7 @@ import { Footer } from "./components/Footer";
 export const App = () => {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(null);
-  const [isToken, setIsToken] = useState(true);
+  // const [isToken, setIsToken] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,23 +31,23 @@ export const App = () => {
         localStorage.removeItem("token");
       }
     }
-    setIsToken(false);
+    // setIsToken(false);
   }, []);
 
-  if (isToken) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <span className="loading loading-infinity loading-xl"></span>
-      </div>
-    );
-  }
+  // if (isToken) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "100vh",
+  //       }}
+  //     >
+  //       <span className="loading loading-infinity loading-xl"></span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -64,11 +64,30 @@ export const App = () => {
           }
         >
           {/* <Route index element={<Homepage />} /> */}
-          <Route path="home" element={<Homepage />} />
-          <Route path="sign-up" element={<SignUp />} />
+          <Route path="home" element={<Homepage user={user} admin={admin} />} />
+          <Route
+            path="sign-up"
+            element={
+              !user && !admin ? (
+                <SignUp />
+              ) : admin ? (
+                <Navigate to="/admin-dashboard" />
+              ) : (
+                user && <Navigate to="/dashboard" />
+              )
+            }
+          />
           <Route
             path="sign-in"
-            element={<SignIn setUser={setUser} setAdmin={setAdmin} />}
+            element={
+              !user && !admin ? (
+                <SignIn setUser={setUser} setAdmin={setAdmin} />
+              ) : admin ? (
+                <Navigate to="/admin-dashboard" />
+              ) : (
+                user && <Navigate to="/dashboard" />
+              )
+            }
           />
           <Route path="settings" element={<h1>Settings</h1>} />
 
