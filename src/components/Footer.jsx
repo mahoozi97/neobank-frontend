@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-base-300 text-base-content items-center p-2">
+    <footer className="footer sm:footer-horizontal bg-base-300 text-base-content items-center">
       <aside className="grid-flow-col items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,13 +27,13 @@ export const Footer = () => {
       </aside>
 
       <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-xs font-bold border border-success/20">
+        {/* <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-xs font-bold border border-success/20">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
           </span>
           SYSTEMS ONLINE
-        </div>
+        </div> */}
 
         {/* Social Icons with standard fill-current */}
         {/* <a className="hover:text-primary transition-colors">

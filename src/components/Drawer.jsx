@@ -14,7 +14,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+      <div className="drawer-content flex flex-col min-h-screen">
         {/* Navbar */}
         <nav className="navbar w-full bg-base-300">
           <label
@@ -41,7 +41,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
           <div className="px-4">NeoBank</div>
         </nav>
         {/* Page content here */}
-        <div className="p-4">
+        <div className="flex-1 p-4">
           <Outlet />
         </div>
       </div>
