@@ -16,7 +16,7 @@ const openAccount = async (data) => {
 
 // Get Account By User ID
 const getAccountsSummary = async () => {
-  const res = await axios.get(BASE_URL, data, authHeader());
+  const res = await axios.get(BASE_URL, authHeader());
   return res.data;
 };
 
