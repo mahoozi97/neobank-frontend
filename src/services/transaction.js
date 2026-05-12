@@ -7,9 +7,12 @@ const authHeader = () => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-// Get Transactions By User ID
-const getUserTransactions = async (status) => {
-  const res = await axios.get(BASE_URL, { ...authHeader(), params: status });
+// Get Transactions By Account ID
+const getUserTransactions = async (accountId, status) => {
+  const res = await axios.get(`${BASE_URL}/${accountId}`, {
+    ...authHeader(),
+    params: status,
+  });
   return res.data;
 };
 
@@ -18,3 +21,8 @@ const transferAmount = async (data) => {
   const res = await axios.post(`${BASE_URL}/transfer`, data, authHeader());
   return res.data;
 };
+
+export {
+  getUserTransactions,
+  transferAmount
+}

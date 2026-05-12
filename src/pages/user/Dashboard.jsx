@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
-import { getAccountsSummary } from "../../services/account";
+import {
+  activateAccount,
+  closeAccount,
+  freezeAccount,
+  getAccountsSummary,
+} from "../../services/account";
+import { TransactionsList } from "./TransactionsList";
 
 export const Dashboard = ({ user }) => {
   const [accounts, setAccounts] = useState(null);
+  const [accountId, setAccountId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchAccountSummary = async () => {
     try {
-      const account = await getAccountsSummary();
-      setAccounts(account);
+      const data = await getAccountsSummary();
+      setAccounts(data);
+      setAccountId(data[0]._id);
     } catch (error) {
       setErrorMessage(error.response?.data.error || error.message);
     }
@@ -18,30 +26,130 @@ export const Dashboard = ({ user }) => {
     return str.replace(/.{4}(?!$)/g, "$& ");
   };
 
+  const changeAccountStatus = async (id, btn) => {
+    try {
+      if (btn === "freeze") {
+        await freezeAccount(id);
+      } else if (btn === "activate") {
+        await activateAccount(id);
+      } else if (btn === "close") {
+        await closeAccount(id);
+      }
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response?.data.error || error.message);
+      setErrorMessage(error.response?.data.error || error.message);
+    }
+  };
+
   useEffect(() => {
     fetchAccountSummary();
   }, []);
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center gap-1">
         {accounts ? (
-          accounts.map((account) => (
-            <div key={account._id} className="card card-border bg-success w-96">
-              <div className="card-body">
-                <h2 className="card-title">NeoBank</h2>
-                <p>{ibanFormat(account.iban)}</p>
-                <p>{account.balance} BHD</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-dash">Transfer</button>
+          <>
+            {accounts.map((account) => (
+              <div
+                key={account._id}
+                className="card bg-success text-neutral-content w-80 shadow-xl"
+              >
+                <div className="card-body">
+                  <div className="flex justify-between items-center">
+                    <div className="badge badge-outline">{account.type}</div>
+                    <div className="badge badge-success gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                      {account.status}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-accent-content mb-1">
+                      Available balance
+                    </p>
+                    <p className="text-3xl font-semibold">{account.balance}</p>
+                    <p className="text-sm text-accent-content mt-1">
+                      Bahraini Dinar · BHD
+                    </p>
+                  </div>
+
+                  <div className="divider my-0"></div>
+
+                  <div className="space-y-1 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-accent-content">Nickname</span>
+                      <span className="font-medium">{account.nickname}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-accent-content">IBAN</span>
+                      <span className="font-mono ">
+                        {ibanFormat(account.iban)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center card-actions mt-2">
+                    {account.status === "active" && (
+                      <button className="btn btn-dash">Transfer</button>
+                    )}
+
+                    <button
+                      className="btn btn-dash"
+                      onClick={() =>
+                        account.status === "active"
+                          ? changeAccountStatus(account._id, "freeze")
+                          : changeAccountStatus(account._id, "activate")
+                      }
+                    >
+                      {account.status === "active" ? "Freeze" : "active"}
+                    </button>
+
+                    {account.status !== "closed" && (
+                      <button
+                        className="btn btn-dash"
+                        onClick={() =>
+                          changeAccountStatus(account._id, "close")
+                        }
+                      >
+                        Close
+                      </button>
+                    )}
+                    {errorMessage && (
+                      <p className="text-error bg-white pl-1 rounded-2xl">
+                        {errorMessage}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            ))}
+          </>
         ) : (
           <span className="loading loading-infinity loading-xl"></span>
         )}
 
         <div className="divider"></div>
+
+        {accounts ? (
+          <>
+            <fieldset className="fieldset pb-4">
+              <legend className="fieldset-legend">Select Account</legend>
+              <select
+                className="select w-30 md:w-xs"
+                onChange={(e) => setAccountId(e.target.value)}
+              >
+                {accounts.map((account) => (
+                  <option key={account._id} value={account._id}>
+                    {account.nickname}
+                  </option>
+                ))}
+              </select>
+            </fieldset>
+          </>
+        ) : null}
+
+        {accountId && <TransactionsList accountId={accountId} />}
       </div>
     </>
   );
