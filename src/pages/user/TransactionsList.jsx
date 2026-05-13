@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserTransactions } from "../../services/transaction";
+import { Loading } from "../../components/Loading";
 
 const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
@@ -196,7 +197,7 @@ export const TransactionsList = ({ accountId }) => {
             {errorMessage ? (
               <span className="text-error">{errorMessage}</span>
             ) : (
-              <span className="loading loading-infinity loading-xl"></span>
+              <Loading />
             )}
           </div>
         )}

@@ -7,12 +7,13 @@ import {
 } from "../../services/account";
 import { TransactionsList } from "./TransactionsList";
 import { useNavigate } from "react-router";
+import { Loading } from "../../components/Loading";
 
 export const Dashboard = ({ user }) => {
   const [accounts, setAccounts] = useState([]);
   const [accountId, setAccountId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const fetchAccountSummary = async () => {
     try {
@@ -44,6 +45,13 @@ export const Dashboard = ({ user }) => {
     }
   };
 
+  const formattedAmount = (amount) => {
+    const formatted = new Intl.NumberFormat("en-BH", {
+      minimumFractionDigits: 3,
+    }).format(amount);
+    return formatted;
+  };
+
   useEffect(() => {
     fetchAccountSummary();
   }, []);
@@ -71,7 +79,9 @@ export const Dashboard = ({ user }) => {
                     <p className="text-xs uppercase tracking-widest text-accent-content mb-1">
                       Available balance
                     </p>
-                    <p className="text-3xl font-semibold">{account.balance}</p>
+                    <p className="text-3xl font-semibold">
+                      {formattedAmount(account.balance)}
+                    </p>
                     <p className="text-sm text-accent-content mt-1">
                       Bahraini Dinar · BHD
                     </p>
@@ -93,7 +103,16 @@ export const Dashboard = ({ user }) => {
                   </div>
                   <div className="flex justify-center card-actions mt-2">
                     {account.status === "active" && (
-                      <button className="btn btn-dash">Transfer</button>
+                      <button
+                        className="btn btn-dash"
+                        onClick={() =>
+                          navigate("/transfer", {
+                            state: { accountId: accountId },
+                          })
+                        }
+                      >
+                        Transfer
+                      </button>
                     )}
 
                     <button
@@ -117,12 +136,10 @@ export const Dashboard = ({ user }) => {
             ))}
           </>
         ) : (
-          <span className="loading loading-infinity loading-xl"></span>
+          <Loading />
         )}
 
         <div className="divider"></div>
-
-        
 
         {accountId && <TransactionsList accountId={accountId} />}
       </div>
