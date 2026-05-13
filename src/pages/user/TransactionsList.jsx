@@ -78,8 +78,9 @@ export const TransactionsList = ({ accountId }) => {
           </div>
         </div>
       ) : null}
-      <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
-        <div className="col-span-6">Transfer Details</div>
+      <div className="hidden md:grid grid-cols-9 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
+        {/* ------------------------------------------------------- */}
+        <div className="col-span-3">Transfer Details</div>
         <div className="col-span-3 text-center">Status</div>
         <div className="col-span-3 text-right">Amount</div>
       </div>
@@ -94,10 +95,10 @@ export const TransactionsList = ({ accountId }) => {
               return (
                 <li
                   key={trans._id}
-                  className="flex flex-col md:grid md:grid-cols-12 md:items-center gap-4 px-4 py-4 md:px-6 hover:bg-base-200/30 transition-colors cursor-pointer"
+                  className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors cursor-pointer bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
                 >
                   {/* Details */}
-                  <div className="flex items-center gap-4 md:col-span-6">
+                  <div className="flex items-center gap-4 md:col-span-3">
                     <div className="avatar placeholder shrink-0">
                       {isIncoming ? (
                         <svg
