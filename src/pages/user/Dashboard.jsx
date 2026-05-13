@@ -6,11 +6,13 @@ import {
   getAccountsSummary,
 } from "../../services/account";
 import { TransactionsList } from "./TransactionsList";
+import { useNavigate } from "react-router";
 
 export const Dashboard = ({ user }) => {
-  const [accounts, setAccounts] = useState(null);
+  const [accounts, setAccounts] = useState([]);
   const [accountId, setAccountId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate()
 
   const fetchAccountSummary = async () => {
     try {
@@ -45,10 +47,11 @@ export const Dashboard = ({ user }) => {
   useEffect(() => {
     fetchAccountSummary();
   }, []);
+
   return (
     <>
       <div className="flex flex-col items-center gap-1">
-        {accounts ? (
+        {accounts.length > 0 ? (
           <>
             {accounts.map((account) => (
               <div
@@ -88,7 +91,6 @@ export const Dashboard = ({ user }) => {
                       </span>
                     </div>
                   </div>
-
                   <div className="flex justify-center card-actions mt-2">
                     {account.status === "active" && (
                       <button className="btn btn-dash">Transfer</button>
@@ -104,17 +106,6 @@ export const Dashboard = ({ user }) => {
                     >
                       {account.status === "active" ? "Freeze" : "active"}
                     </button>
-
-                    {account.status !== "closed" && (
-                      <button
-                        className="btn btn-dash"
-                        onClick={() =>
-                          changeAccountStatus(account._id, "close")
-                        }
-                      >
-                        Close
-                      </button>
-                    )}
                     {errorMessage && (
                       <p className="text-error bg-white pl-1 rounded-2xl">
                         {errorMessage}
@@ -131,7 +122,7 @@ export const Dashboard = ({ user }) => {
 
         <div className="divider"></div>
 
-        {accounts ? (
+        {accounts.length > 0 ? (
           <>
             <fieldset className="fieldset pb-4">
               <legend className="fieldset-legend">Select Account</legend>
@@ -147,7 +138,9 @@ export const Dashboard = ({ user }) => {
               </select>
             </fieldset>
           </>
-        ) : null}
+        ) : (
+          null
+        )}
 
         {accountId && <TransactionsList accountId={accountId} />}
       </div>

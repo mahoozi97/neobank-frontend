@@ -29,11 +29,13 @@ const formatDate = (isoDate) => {
 
 export const TransactionsList = ({ accountId }) => {
   const [transactions, setTransactions] = useState(null);
+  const [filter, setFilter] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const status = ["success", "rejected"];
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (status) => {
     try {
-      const data = await getUserTransactions(accountId);
+      const data = await getUserTransactions(accountId, status);
       setTransactions(data);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
@@ -43,11 +45,28 @@ export const TransactionsList = ({ accountId }) => {
 
   useEffect(() => {
     if (!accountId || accountId === "null") return;
-    fetchTransactions();
-  }, [accountId]);
+    fetchTransactions({ status: filter });
+  }, [accountId, filter]);
 
   return (
     <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
+      {transactions ? (
+        <fieldset className="fieldset pl-4 w-30">
+          <select
+            defaultValue="sort by"
+            className="select"
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option disabled={true}>sort by</option>
+            <option value="">All</option>
+            {status.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </fieldset>
+      ) : null}
       <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
         <div className="col-span-6">Transfer Details</div>
         <div className="col-span-3 text-center">Status</div>
@@ -104,7 +123,7 @@ export const TransactionsList = ({ accountId }) => {
                       <div className="font-bold text-base-content text-sm md:text-base flex items-center gap-2">
                         {trans.fromAccount?.nickname}
                         <span className="text-xs opacity-30">▶</span>
-                        {trans.toAccount?.nickname}
+                        {trans.toAccount?.nickname || "Unknown"}
                       </div>
 
                       <div className="text-xs opacity-60 font-medium mt-0.5 flex items-center gap-2">
