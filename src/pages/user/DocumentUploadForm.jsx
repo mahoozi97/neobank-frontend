@@ -63,7 +63,6 @@ export const DocumentUploadForm = ({ user }) => {
               </fieldset>
 
               <button className="btn btn-neutral mt-4">Upload</button>
-              <label className="label text-red-500">Max size 2MB</label>
             </fieldset>
           </form>
         </div>

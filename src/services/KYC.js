@@ -9,7 +9,14 @@ const authHeader = () => {
 
 const uploadKyc = async (data) => {
   const res = await axios.post(`${BASE_URL}/kyc/upload`, data, authHeader());
-  return res.data
+  return res.data;
 };
 
-export { uploadKyc };
+const getKycDocuments = async () => {
+  const res = await axios.get(`${BASE_URL}/kyc`, authHeader());
+  console.log(res.data)
+  return res.data;
+  
+};
+
+export { uploadKyc, getKycDocuments };
