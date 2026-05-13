@@ -10,3 +10,13 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* modfying tooltip for mobile */
+@media (max-width: 640px) {
+  /* Target the tooltip bubble */
+.tooltip:before {
+  font-size: 12px;
+  max-width: 180px;
+
+}
+}

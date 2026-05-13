@@ -30,12 +30,13 @@ const formatDate = (isoDate) => {
 export const TransactionsList = ({ accountId }) => {
   const [transactions, setTransactions] = useState(null);
   const [filter, setFilter] = useState(null);
+  const [date, setDate] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const status = ["success", "rejected"];
 
-  const fetchTransactions = async (status) => {
+  const fetchTransactions = async (status, date) => {
     try {
-      const data = await getUserTransactions(accountId, status);
+      const data = await getUserTransactions(accountId, status, date);
       setTransactions(data);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
@@ -45,27 +46,37 @@ export const TransactionsList = ({ accountId }) => {
 
   useEffect(() => {
     if (!accountId || accountId === "null") return;
-    fetchTransactions({ status: filter });
-  }, [accountId, filter]);
+    fetchTransactions(filter, date);
+  }, [accountId, filter, date]);
 
   return (
     <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
       {transactions ? (
-        <fieldset className="fieldset pl-4 w-30">
-          <select
-            defaultValue="sort by"
-            className="select"
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option disabled={true}>sort by</option>
-            <option value="">All</option>
-            {status.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </fieldset>
+        <div className="flex space-x-2 justify-center">
+          <fieldset className="fieldset pl-4 w-30">
+            <select
+              defaultValue="sort by"
+              className="select"
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option disabled={true}>sort by</option>
+              <option value="">All</option>
+              {status.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </fieldset>
+
+          <div className="pt-1">
+            <input
+              type="date"
+              className="input"
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+        </div>
       ) : null}
       <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
         <div className="col-span-6">Transfer Details</div>
@@ -141,7 +152,7 @@ export const TransactionsList = ({ accountId }) => {
                       Status
                     </span>
                     <span
-                      className={`badge tooltip tooltip-left  badge-soft badge-sm md:badge-md font-medium ${getStatusColor(
+                      className={`badge tooltip tooltip-left tooltip-error badge-soft badge-sm md:badge-md font-medium ${getStatusColor(
                         trans.status,
                       )}`}
                       data-tip={

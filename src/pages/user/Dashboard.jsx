@@ -122,25 +122,7 @@ export const Dashboard = ({ user }) => {
 
         <div className="divider"></div>
 
-        {accounts.length > 0 ? (
-          <>
-            <fieldset className="fieldset pb-4">
-              <legend className="fieldset-legend">Select Account</legend>
-              <select
-                className="select w-30 md:w-xs"
-                onChange={(e) => setAccountId(e.target.value)}
-              >
-                {accounts.map((account) => (
-                  <option key={account._id} value={account._id}>
-                    {account.nickname}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
-          </>
-        ) : (
-          null
-        )}
+        
 
         {accountId && <TransactionsList accountId={accountId} />}
       </div>
