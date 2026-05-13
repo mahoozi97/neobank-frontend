@@ -12,11 +12,13 @@ import { Footer } from "./components/Footer";
 import { Profile } from "./pages/user/Profile";
 import { DocumentUploadForm } from "./pages/user/DocumentUploadForm";
 import { AccountForm } from "./pages/user/AccountForm";
+import { TransferFrom } from "./pages/user/TransferFrom";
+import { Loading } from "./components/Loading";
 
 export const App = () => {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(null);
-  // const [isToken, setIsToken] = useState(true);
+  const [isToken, setIsToken] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -34,23 +36,23 @@ export const App = () => {
         localStorage.removeItem("token");
       }
     }
-    // setIsToken(false);
+    setIsToken(false);
   }, []);
 
-  // if (isToken) {
-  //   return (
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         height: "100vh",
-  //       }}
-  //     >
-  //       <span className="loading loading-infinity loading-xl"></span>
-  //     </div>
-  //   );
-  // }
+  if (isToken) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Loading/>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -103,6 +105,7 @@ export const App = () => {
               element={<DocumentUploadForm user={user} />}
             />
             <Route path="open-account" element={<AccountForm user={user} />} />
+            <Route path="transfer" element={<TransferFrom user={user} />} />
           </Route>
 
           {/* ADMIN */}

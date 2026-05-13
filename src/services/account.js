@@ -16,7 +16,7 @@ const openAccount = async (data) => {
 
 // Get Account By User ID
 const getAccountsSummary = async () => {
-  const res = await axios.get(BASE_URL, data, authHeader());
+  const res = await axios.get(BASE_URL, authHeader());
   return res.data;
 };
 
@@ -30,21 +30,28 @@ const getTargetAccountIds = async (data) => {
 const freezeAccount = async (accountId) => {
   const res = await axios.patch(
     `${BASE_URL}/${accountId}/freeze`,
+    {},
     authHeader(),
   );
+  return res.data;
 };
 
 // Activate Account
 const activateAccount = async (accountId) => {
   const res = await axios.patch(
-    `${BASE_URL}/${accountId}/active`,
+    `${BASE_URL}/${accountId}/activate`,
+    {},
     authHeader(),
   );
 };
 
 // close Account
 const closeAccount = async (accountId) => {
-  const res = await axios.patch(`${BASE_URL}/${accountId}/close`, authHeader());
+  const res = await axios.patch(
+    `${BASE_URL}/${accountId}/close`,
+    {},
+    authHeader(),
+  );
 };
 
 export {
