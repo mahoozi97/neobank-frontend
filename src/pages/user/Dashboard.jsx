@@ -8,6 +8,7 @@ import {
 import { TransactionsList } from "./TransactionsList";
 import { useNavigate } from "react-router";
 import { Loading } from "../../components/Loading";
+import { formattedAmount, ibanFormat } from "../../utils/helper";
 
 export const Dashboard = ({ user }) => {
   const [accounts, setAccounts] = useState([]);
@@ -25,10 +26,6 @@ export const Dashboard = ({ user }) => {
     }
   };
 
-  const ibanFormat = (str) => {
-    return str.replace(/.{4}(?!$)/g, "$& ");
-  };
-
   const changeAccountStatus = async (id, btn) => {
     try {
       if (btn === "freeze") {
@@ -43,13 +40,6 @@ export const Dashboard = ({ user }) => {
       console.log(error.response?.data.error || error.message);
       setErrorMessage(error.response?.data.error || error.message);
     }
-  };
-
-  const formattedAmount = (amount) => {
-    const formatted = new Intl.NumberFormat("en-BH", {
-      minimumFractionDigits: 3,
-    }).format(amount);
-    return formatted;
   };
 
   useEffect(() => {

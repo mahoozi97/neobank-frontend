@@ -30,7 +30,7 @@ const getAccountById = async (accountId) => {
 // BY USER ID
 const getAccountByUserId = async (userId) => {
   const res = await axios.get(
-    `${BASE_URL}/accounts/user/${userId}`,
+    `${BASE_URL}/account/user/${userId}`,
     authHeader(),
   );
   return res.data;
@@ -38,6 +38,11 @@ const getAccountByUserId = async (userId) => {
 
 //  - - - -  - -  - - -  - - - - ↓ USERS ↓ - - - - -  - -  - - - - -  - - - -
 
+// GET ALL USERS
+const getAllUsers = async () => {
+  const res = await axios.get(`${BASE_URL}/users`, authHeader());
+  return res.data;
+};
 // BLOCK USER
 const blockUser = async (userId) => {
   const res = await axios.patch(
@@ -74,7 +79,7 @@ const getKycById = async (kycId) => {
 };
 
 // BY USER ID
-const getKycById = async (userId) => {
+const getKycByUserId = async (userId) => {
   const res = await axios.get(`${BASE_URL}/kyc/user/${userId}`, authHeader());
   return res.data;
 };
@@ -94,22 +99,24 @@ const rejectKyc = async (kycId, data) => {
 //  - - - -  - -  - - -  - - - - ↓ TRANSACTIONS ↓ - - - - -  - -  - - - - -  - - - -
 
 // All
-const getAllTransactions = async (userId, status) => {
-  const res = await axios.get(`${BASE_URL}/transactions`, {
+const getAllTransactions = async (accountId, status, date) => {
+  const res = await axios.get(`${BASE_URL}/transactions/${accountId}`, {
     ...authHeader(),
-    params: { userId, status },
+    params: { status: status, date: date },
   });
+  return res.data;
 };
 
 export {
   getAllAccounts,
   getAccountById,
   getAccountByUserId,
+  getAllUsers,
   blockUser,
   activateUser,
   getAllKyc,
   getKycById,
-  getKycById,
+  getKycByUserId,
   approveKyc,
   rejectKyc,
   getAllTransactions,

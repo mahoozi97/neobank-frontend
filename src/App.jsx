@@ -14,6 +14,7 @@ import { DocumentUploadForm } from "./pages/user/DocumentUploadForm";
 import { AccountForm } from "./pages/user/AccountForm";
 import { TransferFrom } from "./pages/user/TransferFrom";
 import { Loading } from "./components/Loading";
+import { AccountSummary } from "./pages/admin/AccountSummary";
 
 export const App = () => {
   const [user, setUser] = useState(null);
@@ -49,7 +50,7 @@ export const App = () => {
           height: "100vh",
         }}
       >
-        <Loading/>
+        <Loading />
       </div>
     );
   }
@@ -111,6 +112,7 @@ export const App = () => {
           {/* ADMIN */}
           <Route element={<AdminRoute admin={admin} />}>
             <Route path="admin-dashboard" element={<AdminDashboard />} />
+            <Route path="admin-account" element={<AccountSummary />} />
           </Route>
 
           <Route path="*" element={<h1>Page not found 404</h1>} />
