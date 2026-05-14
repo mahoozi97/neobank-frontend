@@ -39,8 +39,13 @@ const getAccountByUserId = async (userId) => {
 //  - - - -  - -  - - -  - - - - ↓ USERS ↓ - - - - -  - -  - - - - -  - - - -
 
 // GET ALL USERS
-const getAllUsers = async () => {
-  const res = await axios.get(`${BASE_URL}/users`, authHeader());
+const getAllUsers = async (searchTerm) => {
+  const res = await axios.get(`${BASE_URL}/users`, {
+    ...authHeader(),
+    params: {
+      searchTerm: searchTerm,
+    },
+  });
   return res.data;
 };
 // BLOCK USER

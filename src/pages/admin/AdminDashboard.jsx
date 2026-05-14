@@ -7,12 +7,13 @@ import { useNavigate } from "react-router";
 
 export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const fetchAllUsers = async () => {
+  const fetchAllUsers = async (searchTerm) => {
     try {
-      const allUsers = await getAllUsers();
+      const allUsers = await getAllUsers(searchTerm);
 
       setUsers(allUsers);
     } catch (error) {
@@ -21,11 +22,22 @@ export const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    fetchAllUsers();
-  }, []);
+    console.log(searchTerm);
+    
+    fetchAllUsers(searchTerm);
+  }, [searchTerm]);
   return (
     <>
       <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="flex justify-center pt-2 pb-2">
+          <input
+            type="text"
+            placeholder="Type here Name or CPR"
+            className="input"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <div className="hidden md:grid grid-cols-10 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
           <div className="col-span-3">Name</div>
           <div className="col-span-2 text-center">CPR</div>
