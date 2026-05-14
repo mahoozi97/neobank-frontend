@@ -23,7 +23,7 @@ export const AdminDashboard = () => {
 
   useEffect(() => {
     console.log(searchTerm);
-    
+
     fetchAllUsers(searchTerm);
   }, [searchTerm]);
   return (
@@ -77,15 +77,15 @@ export const AdminDashboard = () => {
                     <span className="md:hidden text-xs font-semibold opacity-50 uppercase">
                       KYC
                     </span>
-                    <button
-                      className={`badge cursor-pointer badge-soft badge-sm md:badge-md font-medium ${
+                    <span
+                      className={`badge badge-soft badge-sm md:badge-md font-medium ${
                         user.kycStatus === "verified"
                           ? "badge-success"
                           : "badge-warning"
                       }`}
                     >
                       {user.kycStatus}
-                    </button>
+                    </span>
                   </div>
 
                   {/* Status */}
@@ -108,9 +108,9 @@ export const AdminDashboard = () => {
                       Actions
                     </span>
                     <div className="flex gap-2 w-full md:w-auto justify-start md:justify-end">
-                      <button className="btn btn-xs btn-dash">Block</button>
-                      <button className="btn btn-xs btn-outline btn-error">
-                        Delete
+                      <button className="btn btn-xs btn-error text-white">Block</button>
+                      <button className="btn btn-xs btn-outline">
+                        KYC
                       </button>
                       <button
                         className="btn btn-xs btn-outline"
