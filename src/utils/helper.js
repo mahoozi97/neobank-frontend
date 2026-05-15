@@ -13,16 +13,6 @@ const getStatusColor = (status) => {
   }
 };
 
-const test = (t) => {
-  switch (t) {
-    case "approved":
-      return "bg-warning";
-    case "rejected":
-      return "bg-info"
-
-  }
-}
-
 const formatDate = (isoDate) => {
   return new Date(isoDate).toLocaleString("en-GB", {
     timeZone: "Asia/Bahrain",
@@ -43,8 +33,12 @@ const formattedAmount = (amount) => {
   return formatted;
 };
 
- const ibanFormat = (str) => {
-    return str.replace(/.{4}(?!$)/g, "$& ");
-  };
+const ibanFormat = (str) => {
+  return str.replace(/.{4}(?!$)/g, "$& ");
+};
 
-export { getStatusColor, formatDate, formattedAmount, ibanFormat, test };
+const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export { getStatusColor, formatDate, formattedAmount, ibanFormat, capitalize };

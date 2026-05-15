@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { getAllUsers } from "../../services/admin";
 import { useEffect } from "react";
 import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router";
+import { capitalize } from "../../utils/helper";
 
 export const AdminDashboard = () => {
   const [users, setUsers] = useState(null);
   const [searchTerm, setSearchTerm] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const searchRef = useRef(null);
 
   const fetchAllUsers = async (searchTerm) => {
     try {
@@ -22,20 +24,49 @@ export const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    console.log(searchTerm);
-
     fetchAllUsers(searchTerm);
+
+    // Keybord shortcut ⌘+K
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [searchTerm]);
   return (
     <>
       <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="flex justify-center pt-2 pb-2">
-          <input
-            type="text"
-            placeholder="Type here Name or CPR"
-            className="input"
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <label className="input">
+            <svg
+              className="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input
+              ref={searchRef}
+              type="search"
+              className="grow"
+              placeholder="Search"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <kbd className="kbd kbd-sm">⌘</kbd>
+            <kbd className="kbd kbd-sm">K</kbd>
+          </label>
         </div>
 
         <div className="hidden md:grid grid-cols-10 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
@@ -84,7 +115,7 @@ export const AdminDashboard = () => {
                           : "badge-warning"
                       }`}
                     >
-                      {user.kycStatus}
+                      {capitalize(user.kycStatus)}
                     </span>
                   </div>
 
@@ -98,7 +129,7 @@ export const AdminDashboard = () => {
                         user.status === "active" ? "badge-info" : "badge-error"
                       }`}
                     >
-                      {user.status}
+                      {capitalize(user.status)}
                     </span>
                   </div>
 

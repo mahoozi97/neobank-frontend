@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { approveKyc, getKycByUserId, rejectKyc } from "../../services/admin";
 import { Loading } from "../../components/Loading";
-import { formatDate, getStatusColor, test } from "../../utils/helper";
+import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { useForm } from "react-hook-form";
 
 export const UserKyc = () => {
@@ -145,9 +145,7 @@ export const UserKyc = () => {
 
                   <div className="flex justify-between items-center">
                     <span className="text-accent-content">Status</span>
-                    <span className="font-mono ">
-                      {doc.status.charAt(0).toUpperCase() + doc.status.slice(1)}
-                    </span>
+                    <span className="font-mono ">{capitalize(doc.status)}</span>
                   </div>
 
                   <div className="flex justify-between items-center">
