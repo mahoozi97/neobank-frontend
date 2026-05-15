@@ -51,7 +51,7 @@ const getAllUsers = async (searchTerm) => {
 // BLOCK USER
 const blockUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/block`,
+    `${BASE_URL}/users/${userId}/block`,{},
     authHeader(),
   );
   return res.data;
@@ -60,7 +60,7 @@ const blockUser = async (userId) => {
 // ACTIVATE USER
 const activateUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/active`,
+    `${BASE_URL}/users/${userId}/active`,{},
     authHeader(),
   );
   return res.data;

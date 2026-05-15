@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useState } from "react";
-import { getAllUsers } from "../../services/admin";
+import { activateUser, blockUser, getAllUsers } from "../../services/admin";
 import { useEffect } from "react";
 import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router";
@@ -20,6 +20,23 @@ export const AdminDashboard = () => {
       setUsers(allUsers);
     } catch (error) {
       setErrorMessage(error.response?.data.error || error.message);
+    }
+  };
+
+  const handleUserStatus = async (userId, btn) => {
+    try {
+      if (btn === "active") {
+        await activateUser(userId);
+      } else {
+        await blockUser(userId);
+      }
+      window.location.reload();
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message ||
+          error.message ||
+          `Failed to ${btn} user statues`,
+      );
     }
   };
 
@@ -139,9 +156,21 @@ export const AdminDashboard = () => {
                       Actions
                     </span>
                     <div className="flex gap-2 w-full md:w-auto justify-start md:justify-end">
-                      <button className="btn btn-xs btn-error text-white">
-                        Block
-                      </button>
+                      {user.status === "active" ? (
+                        <button
+                          className="btn btn-xs btn-error text-white"
+                          onClick={() => handleUserStatus(user._id, "block")}
+                        >
+                          Block
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-xs btn-info text-white"
+                          onClick={() => handleUserStatus(user._id, "active")}
+                        >
+                          Active
+                        </button>
+                      )}
                       <button
                         className="btn btn-xs btn-outline"
                         onClick={() =>
