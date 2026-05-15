@@ -14,7 +14,6 @@ const uploadKyc = async (data) => {
 
 const getKycDocuments = async () => {
   const res = await axios.get(`${BASE_URL}/kyc`, authHeader());
-  console.log(res.data)
   return res.data;
   
 };

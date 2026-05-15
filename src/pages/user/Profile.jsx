@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getKycDocuments } from "../../services/KYC";
+import { capitalize } from "../../utils/helper";
 
 export const Profile = ({ user }) => {
   const [documents, setDocuments] = useState(null);
@@ -12,7 +13,7 @@ export const Profile = ({ user }) => {
       setDocuments(kyc);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
-      // setErrorMessage(error.response?.data.error || error.message);
+      setErrorMessage(error.response?.data.error || error.message);
     }
   };
 
@@ -30,7 +31,6 @@ export const Profile = ({ user }) => {
 
   useEffect(() => {
     fetchDocuments();
-    console.log(documents);
   }, []);
   return (
     <>
@@ -47,11 +47,11 @@ export const Profile = ({ user }) => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-accent-content">KYC Status</span>
-              <span className="font-mono ">{user.kycStatus}</span>
+              <span className="font-mono ">{capitalize(user.kycStatus)}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-accent-content">Status</span>
-              <span className="font-mono ">{user.status}</span>
+              <span className="font-mono ">{capitalize(user.status)}</span>
             </div>
           </div>
 

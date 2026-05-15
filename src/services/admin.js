@@ -30,7 +30,7 @@ const getAccountById = async (accountId) => {
 // BY USER ID
 const getAccountByUserId = async (userId) => {
   const res = await axios.get(
-    `${BASE_URL}/accounts/user/${userId}`,
+    `${BASE_URL}/account/user/${userId}`,
     authHeader(),
   );
   return res.data;
@@ -38,10 +38,20 @@ const getAccountByUserId = async (userId) => {
 
 //  - - - -  - -  - - -  - - - - ↓ USERS ↓ - - - - -  - -  - - - - -  - - - -
 
+// GET ALL USERS
+const getAllUsers = async (searchTerm) => {
+  const res = await axios.get(`${BASE_URL}/users`, {
+    ...authHeader(),
+    params: {
+      searchTerm: searchTerm,
+    },
+  });
+  return res.data;
+};
 // BLOCK USER
 const blockUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/block`,
+    `${BASE_URL}/users/${userId}/block`,{},
     authHeader(),
   );
   return res.data;
@@ -50,7 +60,7 @@ const blockUser = async (userId) => {
 // ACTIVATE USER
 const activateUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/active`,
+    `${BASE_URL}/users/${userId}/active`,{},
     authHeader(),
   );
   return res.data;
@@ -74,42 +84,48 @@ const getKycById = async (kycId) => {
 };
 
 // BY USER ID
-const getKycById = async (userId) => {
+const getKycByUserId = async (userId) => {
   const res = await axios.get(`${BASE_URL}/kyc/user/${userId}`, authHeader());
   return res.data;
 };
 
 // Approve
 const approveKyc = async (kycId) => {
-  const res = axios.put(`${BASE_URL}/kyc/${kycId}/approve`, authHeader());
+  const res = await axios.patch(`${BASE_URL}/kyc/${kycId}/approve`,{}, authHeader());
   return res.data;
 };
 
 // Reject (with commment)
 const rejectKyc = async (kycId, data) => {
-  const res = axios.put(`${BASE_URL}/kyc/${kycId}/reject`, data, authHeader());
+  const res = await axios.patch(
+    `${BASE_URL}/kyc/${kycId}/reject`,
+    data,
+    authHeader(),
+  );
   return res.data;
 };
 
 //  - - - -  - -  - - -  - - - - ↓ TRANSACTIONS ↓ - - - - -  - -  - - - - -  - - - -
 
 // All
-const getAllTransactions = async (userId, status) => {
-  const res = await axios.get(`${BASE_URL}/transactions`, {
+const getAllTransactions = async (accountId, status, date) => {
+  const res = await axios.get(`${BASE_URL}/transactions/${accountId}`, {
     ...authHeader(),
-    params: { userId, status },
+    params: { status: status, date: date },
   });
+  return res.data;
 };
 
 export {
   getAllAccounts,
   getAccountById,
   getAccountByUserId,
+  getAllUsers,
   blockUser,
   activateUser,
   getAllKyc,
   getKycById,
-  getKycById,
+  getKycByUserId,
   approveKyc,
   rejectKyc,
   getAllTransactions,
