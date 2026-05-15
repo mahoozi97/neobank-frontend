@@ -6,7 +6,7 @@ import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router";
 
 export const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(null);
   const [searchTerm, setSearchTerm] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -108,8 +108,21 @@ export const AdminDashboard = () => {
                       Actions
                     </span>
                     <div className="flex gap-2 w-full md:w-auto justify-start md:justify-end">
-                      <button className="btn btn-xs btn-error text-white">Block</button>
-                      <button className="btn btn-xs btn-outline">
+                      <button className="btn btn-xs btn-error text-white">
+                        Block
+                      </button>
+                      <button
+                        className="btn btn-xs btn-outline"
+                        onClick={() =>
+                          navigate("/admin-kyc", {
+                            state: {
+                              userId: user._id,
+                              name: user.name,
+                              cpr: user.cpr,
+                            },
+                          })
+                        }
+                      >
                         KYC
                       </button>
                       <button

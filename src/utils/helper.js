@@ -1,5 +1,7 @@
 const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
+    case "approved":
+      return "badge-success";
     case "success":
       return "badge-success";
     case "pending":
@@ -10,6 +12,16 @@ const getStatusColor = (status) => {
       return "badge-ghost";
   }
 };
+
+const test = (t) => {
+  switch (t) {
+    case "approved":
+      return "bg-warning";
+    case "rejected":
+      return "bg-info"
+
+  }
+}
 
 const formatDate = (isoDate) => {
   return new Date(isoDate).toLocaleString("en-GB", {
@@ -35,4 +47,4 @@ const formattedAmount = (amount) => {
     return str.replace(/.{4}(?!$)/g, "$& ");
   };
 
-export { getStatusColor, formatDate, formattedAmount, ibanFormat };
+export { getStatusColor, formatDate, formattedAmount, ibanFormat, test };
