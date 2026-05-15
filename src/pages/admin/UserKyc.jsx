@@ -47,13 +47,9 @@ export const UserKyc = () => {
   // Reject
   const onSubmit = async (kycId, data) => {
     try {
-      console.log(data.kycId);
-
-      const kycData = {
-        comment: data.comment,
-      };
-      await rejectKyc(kycId, kycData);
-      isReject(false);
+      await rejectKyc(kycId, data);
+      window.location.reload();
+      setIsReject(false);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
       setErrorMessage(error.response?.data.error || error.message);
@@ -109,7 +105,7 @@ export const UserKyc = () => {
                     <span className="font-mono ">
                       <a
                         href={doc.documents[0].url}
-                        target="blank"
+                        target="_blank"
                         className="link"
                       >
                         click here

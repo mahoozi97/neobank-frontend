@@ -34,7 +34,7 @@ export const Profile = ({ user }) => {
   }, []);
   return (
     <>
-      <div className="card bg-info text-neutral-content w-80 shadow-xl">
+      <div className="card bg-info text-neutral-content w-100 max-w-full shadow-xl">
         <div className="card-body">
           <div className="space-y-1 text-sm">
             <div className="flex justify-between items-center">
@@ -56,20 +56,19 @@ export const Profile = ({ user }) => {
           </div>
 
           <div className="flex justify-center space-x-1">
-            {!documents ||
-              (documents.status === "rejected" && (
-                <>
-                  <button
-                    className="btn btn-xs sm:btn-sm md:btn-md"
-                    onClick={() => navigate("/upload-kyc")}
-                  >
-                    Verify My Identity
-                  </button>
-                </>
-              ))}
+            {(!documents ||
+              documents.length === 0 ||
+              documents.status === "rejected") && (
+              <button
+                className="btn btn-xs sm:btn-sm"
+                onClick={() => navigate("/upload-kyc")}
+              >
+                Verify My Identity
+              </button>
+            )}
 
             <button
-              className="btn btn-xs sm:btn-sm md:btn-md"
+              className="btn btn-xs sm:btn-sm"
               onClick={() => navigate("/open-account")}
             >
               Open Account
