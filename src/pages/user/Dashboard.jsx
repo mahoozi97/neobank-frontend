@@ -50,7 +50,11 @@ export const Dashboard = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="flex justify-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (errorMessage) {
