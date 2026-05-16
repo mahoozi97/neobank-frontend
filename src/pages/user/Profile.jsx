@@ -7,7 +7,7 @@ export const Profile = ({ user }) => {
   const [documents, setDocuments] = useState(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("What is your name");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchDocuments = async () => {
     try {
