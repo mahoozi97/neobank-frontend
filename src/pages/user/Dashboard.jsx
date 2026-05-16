@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   activateAccount,
-  closeAccount,
   freezeAccount,
   getAccountsSummary,
 } from "../../services/account";
@@ -35,8 +34,6 @@ export const Dashboard = () => {
         await freezeAccount(id);
       } else if (btn === "activate") {
         await activateAccount(id);
-      } else if (btn === "close") {
-        await closeAccount(id);
       }
       window.location.reload();
     } catch (error) {

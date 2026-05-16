@@ -45,20 +45,10 @@ const activateAccount = async (accountId) => {
   );
 };
 
-// close Account
-const closeAccount = async (accountId) => {
-  const res = await axios.patch(
-    `${BASE_URL}/${accountId}/close`,
-    {},
-    authHeader(),
-  );
-};
-
 export {
   openAccount,
   getAccountsSummary,
   getTargetAccountIds,
   freezeAccount,
   activateAccount,
-  closeAccount,
 };
