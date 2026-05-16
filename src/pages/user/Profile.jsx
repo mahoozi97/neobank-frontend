@@ -54,22 +54,15 @@ export const Profile = ({ user }) => {
               </div>
             </div>
 
-            <div className="flex justify-center space-x-1">
+            <div className="flex justify-center">
               {!isLoading && (!document || document.status === "rejected") && (
-                <button
-                  className="btn btn-xs sm:btn-sm"
-                  onClick={() => navigate("/upload-kyc")}
-                >
-                  Verify My Identity
-                </button>
-              )}
-
               <button
-                className="btn btn-xs sm:btn-sm"
-                onClick={() => navigate("/open-account")}
+                className="btn"
+                onClick={() => navigate("/upload-kyc")}
               >
-                Open Account
+                Verify My Identity
               </button>
+            )}
             </div>
           </div>
         </div>

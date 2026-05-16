@@ -8,6 +8,7 @@ import { TransactionsList } from "./TransactionsList";
 import { useNavigate } from "react-router";
 import { Loading } from "../../components/Loading";
 import { formattedAmount, ibanFormat } from "../../utils/helper";
+import { OpenAccountCard } from "../../components/OpenAccountCard";
 
 export const Dashboard = () => {
   const [accounts, setAccounts] = useState([]);
@@ -20,7 +21,7 @@ export const Dashboard = () => {
     try {
       const data = await getAccountsSummary();
       setAccounts(data);
-      setAccountId(data[0]._id);
+      setAccountId(data.length > 0 ? data[0]._id : null);
     } catch (error) {
       setErrorMessage(error.response?.data.error || error.message);
     } finally {
@@ -59,11 +60,7 @@ export const Dashboard = () => {
   }
 
   if (accounts.length === 0) {
-    return (
-      <div className="p-10 text-center opacity-60 italic">
-        No Accounts found.
-      </div>
-    );
+    return <OpenAccountCard />;
   }
   return (
     <>

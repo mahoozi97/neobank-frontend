@@ -27,6 +27,7 @@ export const TransferFrom = () => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("")
       if (isIban) {
         delete data.mobile;
       } else {
@@ -110,7 +111,7 @@ export const TransferFrom = () => {
                 {...register("beneficiary", { required: true })}
               />
 
-              <button className="btn btn-neutral mt-4">Next</button>
+              <button className="btn btn-outline mt-4">Next</button>
             </fieldset>
           </form>
         </div>
@@ -152,7 +153,7 @@ export const TransferFrom = () => {
                   })}
                 />
                 <div className="flex justify-center space-x-2">
-                  <button className="btn  mt-4">Send</button>
+                  <button className="btn btn-outline mt-4">Send</button>
                   <button
                     type="button"
                     className="btn btn-dash btn-error mt-4"

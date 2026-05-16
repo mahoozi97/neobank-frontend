@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 
 export const Drawer = ({ user, setUser, admin, setAdmin }) => {
   const navigate = useNavigate();
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light",
+  );
 
   function logOut() {
     localStorage.removeItem("token");
@@ -11,6 +15,20 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
       setAdmin(null);
     }
   }
+
+  const handleToggle = (e) => {
+    if (e.target.checked) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -268,38 +286,13 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
               </>
             )}
 
-            {/* List item */}
-            <li>
-              <Link
-                to={"/settings"}
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
-              >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </Link>
-            </li>
-
-            <li>
+            <li className="pt-2">
               <input
                 type="checkbox"
                 value="dark"
                 className="toggle theme-controller"
+                checked={theme === "dark"}
+                onChange={handleToggle}
               />
             </li>
           </ul>
