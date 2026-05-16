@@ -16,7 +16,7 @@ export const DocumentUploadForm = ({ user }) => {
       formData.append("passport", data.passport[0]);
 
       await uploadKyc(formData);
-      navigate("/dashboard");
+      navigate("/profile");
     } catch (error) {
       setErrorMessage(error.response?.data.error || error.message);
     }

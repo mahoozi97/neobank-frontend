@@ -16,8 +16,6 @@ export const TransferFrom = () => {
 
   const findReceipienet = async (data) => {
     try {
-      console.log(data);
-
       const res = await getTargetAccountIds(data);
       setFoundAccounts(res);
       setErrorMessage("");
@@ -29,6 +27,7 @@ export const TransferFrom = () => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("")
       if (isIban) {
         delete data.mobile;
       } else {
@@ -112,7 +111,7 @@ export const TransferFrom = () => {
                 {...register("beneficiary", { required: true })}
               />
 
-              <button className="btn btn-neutral mt-4">Next</button>
+              <button className="btn btn-outline mt-4">Next</button>
             </fieldset>
           </form>
         </div>
@@ -123,7 +122,7 @@ export const TransferFrom = () => {
           <div className="flex justify-center">
             <form onSubmit={handleSubmit(onSubmit)}>
               <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-                <legend className="fieldset-legend">Account Form</legend>
+                <legend className="fieldset-legend">Transfer To</legend>
 
                 {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
@@ -153,7 +152,19 @@ export const TransferFrom = () => {
                     required: true,
                   })}
                 />
-                <button className="btn btn-neutral mt-4">Send</button>
+                <div className="flex justify-center space-x-2">
+                  <button className="btn btn-outline mt-4">Send</button>
+                  <button
+                    type="button"
+                    className="btn btn-dash btn-error mt-4"
+                    onClick={() => {
+                      setFoundAccounts([])
+                      window.location.reload()
+                    }}
+                  >
+                    Back
+                  </button>
+                </div>
               </fieldset>
             </form>
           </div>

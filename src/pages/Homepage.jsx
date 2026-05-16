@@ -14,7 +14,7 @@ export const Homepage = ({ user, admin }) => {
     }
   };
   return (
-    <div className="hero min-h-[70vh]">
+    <div className="hero bg-base-200 min-h-full">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Banking for the Digital Age</h1>
@@ -22,7 +22,7 @@ export const Homepage = ({ user, admin }) => {
             Secure, fast, and transparent. Open an account in minutes and manage
             your finances with ease.
           </p>
-          <button className="btn btn-primary" onClick={navigateTo}>
+          <button className="btn btn-outline" onClick={navigateTo}>
             Get Started
           </button>
         </div>
