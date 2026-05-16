@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAuditLogs } from "../../services/admin";
 import { formatDate } from "../../utils/helper";
+import { Loading } from "../../components/Loading";
 
 // Our badge dictionary and action list
 const ACTION_BADGES = {
@@ -206,7 +207,7 @@ export const AuditLogs = () => {
         {/* Loading / Error  */}
         {loading && (
           <div className="p-10 text-center">
-            <span className="loading loading-spinner text-primary"></span>
+            <Loading />
           </div>
         )}
         {errorMessage && (
