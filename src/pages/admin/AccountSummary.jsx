@@ -156,7 +156,7 @@ export const AccountSummary = () => {
                     return (
                       <li
                         key={trans._id}
-                        className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors cursor-pointer bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
+                        className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
                       >
                         {/* Details */}
                         <div className="flex items-center gap-4 md:col-span-3">
@@ -214,7 +214,7 @@ export const AccountSummary = () => {
                             Status
                           </span>
                           <span
-                            className={`badge tooltip tooltip-left tooltip-error badge-soft badge-sm md:badge-md font-medium ${getStatusColor(
+                            className={`badge tooltip tooltip-left tooltip-error badge-soft ${trans.status === "rejected" && "cursor-help"} badge-sm md:badge-md font-medium ${getStatusColor(
                               trans.status,
                             )}`}
                             data-tip={
@@ -232,7 +232,6 @@ export const AccountSummary = () => {
                             Amount
                           </span>
                           <div className="text-right">
-
                             <div className={`font-bold text-lg md:text-base `}>
                               {trans.amount}
                             </div>
@@ -255,7 +254,9 @@ export const AccountSummary = () => {
                 /* Loading / Error State */
                 <div className="p-10 text-center">
                   {transactionsErrorMessage ? (
-                    <span className="text-error">{transactionsErrorMessage}</span>
+                    <span className="text-error">
+                      {transactionsErrorMessage}
+                    </span>
                   ) : (
                     <Loading />
                   )}

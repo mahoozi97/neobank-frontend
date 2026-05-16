@@ -31,7 +31,7 @@ export const TransactionsList = ({ accountId }) => {
   if (isLoading) {
     return (
       <div className="flex justify-center">
-        <Loading/>
+        <Loading />
       </div>
     );
   }
@@ -90,7 +90,7 @@ export const TransactionsList = ({ accountId }) => {
                 return (
                   <li
                     key={trans._id}
-                    className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors cursor-pointer bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
+                    className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
                   >
                     {/* Details */}
                     <div className="flex items-center gap-4 md:col-span-3">
@@ -148,7 +148,7 @@ export const TransactionsList = ({ accountId }) => {
                         Status
                       </span>
                       <span
-                        className={`badge tooltip tooltip-left tooltip-error badge-soft badge-sm md:badge-md font-medium ${getStatusColor(
+                        className={`badge tooltip tooltip-left tooltip-error badge-soft ${trans.status === "rejected" && "cursor-help"} badge-sm md:badge-md font-medium ${getStatusColor(
                           trans.status,
                         )}`}
                         data-tip={

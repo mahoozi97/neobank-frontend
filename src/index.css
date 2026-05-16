@@ -11,12 +11,35 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+   /* tooltip (AuditLogs page) */
+  .audit-tooltip:before {
+    font-size: 14px !important;
+    max-width: 300px !important;
+    width: 300px !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    text-align: left !important;
+    padding: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+
 /* modfying tooltip for mobile */
 @media (max-width: 640px) {
   /* Target the tooltip bubble */
-.tooltip:before {
-  font-size: 12px;
-  max-width: 180px;
+  .tooltip:before {
+    font-size: 12px;
+    max-width: 180px;
+  }
 
-}
+  /* tooltip (AuditLogs page) */
+  .audit-tooltip:before {
+    font-size: 11px !important;
+    max-width: 250px !important;
+    width: 250px !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    text-align: left !important;
+    padding: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
 }
