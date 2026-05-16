@@ -51,7 +51,6 @@ export const TransactionsList = ({ accountId }) => {
               className="select"
               onChange={(e) => setFilter(e.target.value)}
             >
-              <option disabled={true}>sort by</option>
               <option value="">All</option>
               {status.map((s) => (
                 <option key={s} value={s}>
