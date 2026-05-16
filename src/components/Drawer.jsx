@@ -184,7 +184,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
                   <Link
                     to={"/admin-dashboard"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Admin Dashboard"
+                    data-tip="Dashboard"
                   >
                     {/* Admin Dashboard icon */}
                     <svg
@@ -203,6 +203,30 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
                       <rect x="3" y="14" width="7" height="7" />
                     </svg>
                     <span className="is-drawer-close:hidden">Dashboard</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to={"/admin-logs"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Audit Logs"
+                  >
+                    {/* Audi logs icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="size-4"
+                    >
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <span className="is-drawer-close:hidden">Audit Logs</span>
                   </Link>
                 </li>
 

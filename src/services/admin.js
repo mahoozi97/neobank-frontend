@@ -7,6 +7,20 @@ const authHeader = () => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
+//  - - - -  - -  - - -  - - - - ↓ AUDIT LOGS ↓ - - - - -  - -  - - - - -  - - - -
+
+const getAuditLogs = async (page, action) => {
+  const res = await axios.get(`${BASE_URL}/audit-logs`, {
+    ...authHeader(),
+    params: {
+      page,
+      limit: 10,
+      action: action,
+    },
+  });
+  return res.data;
+};
+
 //  - - - -  - -  - - -  - - - - ↓ Accounts ↓ - - - - -  - -  - - - - -  - - - -
 
 // BY USER ID
@@ -33,7 +47,8 @@ const getAllUsers = async (searchTerm) => {
 // BLOCK USER
 const blockUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/block`,{},
+    `${BASE_URL}/users/${userId}/block`,
+    {},
     authHeader(),
   );
   return res.data;
@@ -42,7 +57,8 @@ const blockUser = async (userId) => {
 // ACTIVATE USER
 const activateUser = async (userId) => {
   const res = await axios.patch(
-    `${BASE_URL}/users/${userId}/active`,{},
+    `${BASE_URL}/users/${userId}/active`,
+    {},
     authHeader(),
   );
   return res.data;
@@ -58,7 +74,11 @@ const getKycByUserId = async (userId) => {
 
 // Approve
 const approveKyc = async (kycId) => {
-  const res = await axios.patch(`${BASE_URL}/kyc/${kycId}/approve`,{}, authHeader());
+  const res = await axios.patch(
+    `${BASE_URL}/kyc/${kycId}/approve`,
+    {},
+    authHeader(),
+  );
   return res.data;
 };
 
@@ -92,4 +112,5 @@ export {
   approveKyc,
   rejectKyc,
   getAllTransactions,
+  getAuditLogs
 };
