@@ -76,7 +76,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
             {/* List item */}
             <li>
               <Link
-                to={"/home"}
+                to={"/"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Homepage"
               >
