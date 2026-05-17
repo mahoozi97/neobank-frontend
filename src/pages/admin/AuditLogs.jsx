@@ -49,7 +49,7 @@ export const AuditLogs = () => {
     setErrorMessage("");
     try {
       const data = await getAuditLogs(page, actionFilter);
-      setTotalActions(data.pagination?.total);
+      setTotalActions(data.total);
 
       const newLogs = data.logs;
 
