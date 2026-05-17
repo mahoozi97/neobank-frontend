@@ -72,7 +72,7 @@ export const App = () => {
           }
         >
           {/* <Route index element={<Homepage />} /> */}
-          <Route path="home" element={<Homepage user={user} admin={admin} />} />
+          <Route path="/" element={<Homepage user={user} admin={admin} />} />
           <Route
             path="sign-up"
             element={
