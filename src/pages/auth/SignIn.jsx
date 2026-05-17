@@ -21,7 +21,7 @@ export const SignIn = ({ setUser, setAdmin }) => {
         navigate("/dashboard");
       } else {
         setAdmin(userInfo);
-        navigate("/admin-dashboard");
+        navigate("/admin/dashboard");
       }
     } catch (error) {
       setErrorMessage(error.response?.data.error || error.message);
@@ -31,30 +31,30 @@ export const SignIn = ({ setUser, setAdmin }) => {
     <>
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-          <legend className="fieldset-legend">Sign In</legend>
+          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend className="fieldset-legend">Sign In</legend>
 
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-          <label className="label">Email</label>
-          <input
-            type="email"
-            className="input"
-            placeholder="Email"
-            {...register("email", { required: true })}
-          />
+            <label className="label">Email</label>
+            <input
+              type="email"
+              className="input"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
 
-          <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            placeholder="Password"
-            {...register("password", { required: true })}
-          />
+            <label className="label">Password</label>
+            <input
+              type="password"
+              className="input"
+              placeholder="Password"
+              {...register("password", { required: true })}
+            />
 
-          <button className="btn btn-neutral mt-4">Sign In</button>
-        </fieldset>
-      </form>
+            <button className="btn btn-neutral mt-4">Sign In</button>
+          </fieldset>
+        </form>
       </div>
     </>
   );

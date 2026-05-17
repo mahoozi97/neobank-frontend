@@ -8,7 +8,7 @@ export const Homepage = ({ user, admin }) => {
     if (user) {
       navigate("/dashboard");
     } else if (admin) {
-      navigate("/admin-dashboard");
+      navigate("/admin/dashboard");
     } else {
       navigate("/sign-up");
     }

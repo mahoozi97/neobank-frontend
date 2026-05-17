@@ -79,7 +79,7 @@ export const App = () => {
               !user && !admin ? (
                 <SignUp />
               ) : admin ? (
-                <Navigate to="/admin-dashboard" />
+                <Navigate to="/admin/dashboard" />
               ) : (
                 user && <Navigate to="/dashboard" />
               )
@@ -91,7 +91,7 @@ export const App = () => {
               !user && !admin ? (
                 <SignIn setUser={setUser} setAdmin={setAdmin} />
               ) : admin ? (
-                <Navigate to="/admin-dashboard" />
+                <Navigate to="/admin/dashboard" />
               ) : (
                 user && <Navigate to="/dashboard" />
               )
@@ -101,22 +101,19 @@ export const App = () => {
 
           {/* USER */}
           <Route element={<UserRoute user={user} />}>
-            <Route path="dashboard" element={<Dashboard user={user} />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="profile" element={<Profile user={user} />} />
-            <Route
-              path="upload-kyc"
-              element={<DocumentUploadForm user={user} />}
-            />
-            <Route path="open-account" element={<AccountForm user={user} />} />
-            <Route path="transfer" element={<TransferFrom user={user} />} />
+            <Route path="upload-kyc" element={<DocumentUploadForm />} />
+            <Route path="open-account" element={<AccountForm />} />
+            <Route path="transfer" element={<TransferFrom />} />
           </Route>
 
           {/* ADMIN */}
           <Route element={<AdminRoute admin={admin} />}>
-            <Route path="admin-dashboard" element={<AdminDashboard />} />
-            <Route path="admin-account" element={<AccountSummary />} />
-            <Route path="admin-kyc" element={<UserKyc />} />
-            <Route path="admin-logs" element={<AuditLogs />} />
+            <Route path="admin/dashboard" element={<AdminDashboard />} />
+            <Route path="admin/account-summary" element={<AccountSummary />} />
+            <Route path="admin/kyc" element={<UserKyc />} />
+            <Route path="admin/logs" element={<AuditLogs />} />
           </Route>
 
           <Route path="*" element={<h1>Page not found 404</h1>} />
