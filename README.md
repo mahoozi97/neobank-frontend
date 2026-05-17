@@ -1,6 +1,6 @@
-# NeoBank — Frontend
+# NeoBank — Retail & Admin Banking Interface
 
-A secure, role-based React SPA for a digital banking platform. Built with Vite, Tailwind CSS and DaisyUI.
+A secure, role-based React SPA engineered for digital banking operations. Built with Vite, Tailwind CSS, and DaisyUI.
 
 ---
 
