@@ -174,7 +174,7 @@ export const AdminDashboard = () => {
                       <button
                         className="btn btn-xs btn-outline"
                         onClick={() =>
-                          navigate("/admin-kyc", {
+                          navigate("/admin/kyc", {
                             state: {
                               userId: user._id,
                               name: user.name,
@@ -188,7 +188,7 @@ export const AdminDashboard = () => {
                       <button
                         className="btn btn-xs btn-outline"
                         onClick={() =>
-                          navigate("/admin-account", {
+                          navigate("/admin/account-summary", {
                             state: { userId: user._id },
                           })
                         }

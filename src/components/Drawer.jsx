@@ -182,7 +182,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
               <>
                 <li>
                   <Link
-                    to={"/admin-dashboard"}
+                    to={"/admin/dashboard"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Admin Dashboard"
                   >
@@ -208,7 +208,7 @@ export const Drawer = ({ user, setUser, admin, setAdmin }) => {
 
                 <li>
                   <Link
-                    to={"/admin-logs"}
+                    to={"/admin/logs"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Audit Logs"
                   >
