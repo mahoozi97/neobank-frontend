@@ -8,7 +8,7 @@ export const NoAccountCard = () => {
           </h2>
 
           <p className="text-sm text-base-content/70 my-2">
-            This user hasn't opened a bank account yet.
+            This user hasn't opened account yet.
           </p>
         </div>
       </div>
