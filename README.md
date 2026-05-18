@@ -2,6 +2,8 @@
 
 A secure, role-based React SPA engineered for digital banking operations. Built with Vite, Tailwind CSS, and DaisyUI.
 
+> 🔗 **Backend API Repository:** [View the Node.js Backend Here](https://github.com/mahoozi97/neobank-backend)
+
 ---
 
 ## Tech Stack
@@ -159,3 +161,11 @@ Paginated audit log viewer with filtering by `action` type (login, transfer, fre
 | `verified`   | 3000 BHD     |
 
 Enforced on both the frontend (UI warning) and the backend (middleware validation).
+
+---
+
+## Deployment
+
+The app is live at: [https://neobank-frontend.netlify.app](https://neobank-frontend.netlify.app)
+
+> ⚠️ **Render Free Tier Note:** The backend is hosted on Render's free plan. If the live frontend feels stuck or isn't loading data, the backend server is likely asleep. You can wake it up manually by clicking this link and waiting ~1 minute for it to load: [https://neobank-backend-z6vx.onrender.com](https://neobank-backend-z6vx.onrender.com)
