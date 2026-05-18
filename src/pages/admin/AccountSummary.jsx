@@ -8,17 +8,19 @@ import {
 } from "../../utils/helper";
 import { Loading } from "../../components/Loading";
 import { getAccountByUserId, getAllTransactions } from "../../services/admin";
+import { NoAccountCard } from "../../components/NoAccountCard";
 
 export const AccountSummary = () => {
   const location = useLocation();
   const userId = location.state?.userId;
   const [account, setAccount] = useState(null);
   const [transactions, setTransactions] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [accountErrorMessage, setAccountErrorMessage] = useState("");
   const [transactionsErrorMessage, setTransactionsErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const [filter, setFilter] = useState(null);
+  const [statusFilter, setStatusFilter] = useState(null);
   const [date, setDate] = useState();
   const status = ["success", "rejected"];
 
@@ -39,21 +41,31 @@ export const AccountSummary = () => {
       setTransactions(transData);
     } catch (error) {
       setTransactionsErrorMessage(error.response?.data.error || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      fetchAccountSummary();
-      fetchAccountTransactions(filter, date);
-    };
+    fetchAccountTransactions(statusFilter, date);
+  }, [statusFilter, date]);
 
-    loadData();
-  }, [filter, date]);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (!account) {
+    return <NoAccountCard />;
+  }
+
   return (
     <>
       <div className="flex flex-col items-center gap-1">
-        {account ? (
+        {account && (
           <>
             <div className="card bg-success text-neutral-content w-80 shadow-xl">
               <div className="card-body">
@@ -103,8 +115,6 @@ export const AccountSummary = () => {
               </div>
             </div>
           </>
-        ) : (
-          <Loading />
         )}
 
         <div className="divider"></div>
@@ -118,7 +128,7 @@ export const AccountSummary = () => {
                   <select
                     defaultValue="sort by"
                     className="select"
-                    onChange={(e) => setFilter(e.target.value)}
+                    onChange={(e) => setStatusFilter(e.target.value)}
                   >
                     <option disabled={true}>sort by</option>
                     <option value="">All</option>
