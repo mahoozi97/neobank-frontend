@@ -8,10 +8,10 @@ const authHeader = () => {
 };
 
 // Get Transactions By Account ID
-const getUserTransactions = async (accountId, status, date) => {
+const getUserTransactions = async (accountId, page, status, date) => {
   const res = await axios.get(`${BASE_URL}/${accountId}`, {
     ...authHeader(),
-    params: { status: status, date: date },
+    params: { page, limit: 10, status: status, date: date },
   });
   return res.data;
 };

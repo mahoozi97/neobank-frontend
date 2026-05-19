@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAuditLogs } from "../../services/admin";
 import { formatDate } from "../../utils/helper";
 import { Loading } from "../../components/Loading";
+import { LoadMore } from "../../components/LoadMore";
 
 // Our badge dictionary and action list
 const ACTION_BADGES = {
@@ -219,14 +220,7 @@ export const AuditLogs = () => {
 
       {/* Load More Button */}
       {hasMore && !loading && logs?.length > 0 && (
-        <div className="flex justify-center p-6 bg-base-100 border-t border-base-200">
-          <button
-            className="btn btn-outline btn-sm w-full max-w-xs"
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Load More
-          </button>
-        </div>
+        <LoadMore setPage={setPage} />
       )}
     </div>
   );
