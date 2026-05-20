@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import {
+  displayBalanceTemporarily,
   formatDate,
   formattedAmount,
   getStatusColor,
@@ -15,6 +16,7 @@ export const AccountSummary = () => {
   const location = useLocation();
   const userId = location.state?.userId;
   const [account, setAccount] = useState(null);
+  const [showBalance, setShowBalance] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ export const AccountSummary = () => {
       <div className="flex flex-col items-center gap-1">
         {account && (
           <>
-            <div className="card bg-success text-neutral-content w-80 shadow-xl">
+            <div className="card bg-success text-neutral-content w-80 md:w-120 shadow-xl">
               <div className="card-body">
                 <div className="flex justify-between items-center">
                   <div className="badge badge-outline">{account.type}</div>
@@ -73,9 +75,18 @@ export const AccountSummary = () => {
                   <p className="text-xs uppercase tracking-widest text-accent-content mb-1">
                     Available balance
                   </p>
-                  <p className="text-3xl font-semibold">
-                    {formattedAmount(account.balance)}
-                  </p>
+                  {!showBalance ? (
+                    <a
+                      className="link"
+                      onClick={() => displayBalanceTemporarily(setShowBalance)}
+                    >
+                      Show Balance
+                    </a>
+                  ) : (
+                    <p className="text-3xl font-semibold">
+                      {formattedAmount(account.balance)}
+                    </p>
+                  )}
                   <p className="text-sm text-accent-content mt-1">
                     Bahraini Dinar · BHD
                   </p>
@@ -84,13 +95,9 @@ export const AccountSummary = () => {
                 <div className="divider my-0"></div>
 
                 <div className="space-y-1 text-sm">
-                  <div className="flex justify-between items-center">
-                    <span className="text-accent-content">Nickname</span>
+                  <div className="flex flex-col md:flex-row justify-between items-center">
                     <span className="font-medium">{account.nickname}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-accent-content">IBAN</span>
-                    <span className="font-mono ">
+                    <span className="font-mono">
                       {ibanFormat(account.iban)}
                     </span>
                   </div>

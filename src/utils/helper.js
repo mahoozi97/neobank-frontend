@@ -41,4 +41,16 @@ const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export { getStatusColor, formatDate, formattedAmount, ibanFormat, capitalize };
+const displayBalanceTemporarily = (setShowBalance) => {
+  setShowBalance(true);
+  setTimeout(() => setShowBalance(false), 3000);
+};
+
+export {
+  getStatusColor,
+  formatDate,
+  formattedAmount,
+  ibanFormat,
+  capitalize,
+  displayBalanceTemporarily,
+};

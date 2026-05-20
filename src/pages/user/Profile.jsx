@@ -13,7 +13,6 @@ export const Profile = ({ user }) => {
     try {
       const kyc = await getKycDocuments();
       setDocument(kyc);
-      console.log(kyc);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
       setErrorMessage(error.response?.data.error || error.message);

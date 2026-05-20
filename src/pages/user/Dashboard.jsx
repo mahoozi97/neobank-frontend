@@ -7,7 +7,11 @@ import {
 import { TransactionsList } from "./TransactionsList";
 import { useNavigate } from "react-router";
 import { Loading } from "../../components/Loading";
-import { formattedAmount, ibanFormat } from "../../utils/helper";
+import {
+  displayBalanceTemporarily,
+  formattedAmount,
+  ibanFormat,
+} from "../../utils/helper";
 import { OpenAccountCard } from "../../components/OpenAccountCard";
 
 export const Dashboard = () => {
@@ -15,6 +19,7 @@ export const Dashboard = () => {
   const [accountId, setAccountId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showBalance, setShowBalance] = useState(false);
   const navigate = useNavigate();
 
   const fetchAccountSummary = async () => {
@@ -68,7 +73,7 @@ export const Dashboard = () => {
         {accounts.map((account) => (
           <div
             key={account._id}
-            className="card bg-success text-neutral-content w-80 shadow-xl"
+            className="card bg-success text-neutral-content w-80 md:w-120 shadow-xl"
           >
             <div className="card-body">
               <div className="flex justify-between items-center">
@@ -83,9 +88,18 @@ export const Dashboard = () => {
                 <p className="text-xs uppercase tracking-widest text-accent-content mb-1">
                   Available balance
                 </p>
-                <p className="text-3xl font-semibold">
-                  {formattedAmount(account.balance)}
-                </p>
+                {!showBalance ? (
+                  <a
+                    className="link"
+                    onClick={() => displayBalanceTemporarily(setShowBalance)}
+                  >
+                    Show Balance
+                  </a>
+                ) : (
+                  <p className="text-3xl font-semibold">
+                    {formattedAmount(account.balance)}
+                  </p>
+                )}
                 <p className="text-sm text-accent-content mt-1">
                   Bahraini Dinar · BHD
                 </p>
@@ -94,13 +108,9 @@ export const Dashboard = () => {
               <div className="divider my-0"></div>
 
               <div className="space-y-1 text-sm">
-                <div className="flex justify-between items-center">
-                  <span className="text-accent-content">Nickname</span>
+                <div className="flex flex-col md:flex-row justify-between items-center">
                   <span className="font-medium">{account.nickname}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-accent-content">IBAN</span>
-                  <span className="font-mono ">{ibanFormat(account.iban)}</span>
+                  <span className="font-mono">{ibanFormat(account.iban)}</span>
                 </div>
               </div>
               <div className="flex justify-center card-actions mt-2">
@@ -109,7 +119,10 @@ export const Dashboard = () => {
                     className="btn btn-dash"
                     onClick={() =>
                       navigate("/transfer", {
-                        state: { accountId: accountId },
+                        state: {
+                          accountId: accountId,
+                          balance: formattedAmount(account.balance),
+                        },
                       })
                     }
                   >
