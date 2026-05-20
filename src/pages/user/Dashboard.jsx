@@ -108,7 +108,7 @@ export const Dashboard = () => {
               <div className="divider my-0"></div>
 
               <div className="space-y-1 text-sm">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col md:flex-row justify-between items-center">
                   <span className="font-medium">{account.nickname}</span>
                   <span className="font-mono">{ibanFormat(account.iban)}</span>
                 </div>
