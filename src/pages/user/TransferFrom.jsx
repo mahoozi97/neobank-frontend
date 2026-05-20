@@ -19,6 +19,10 @@ export const TransferFrom = () => {
 
   const findReceipienet = async (data) => {
     try {
+      setErrorMessage("")
+      if (data.iban) {
+        data.iban = data.iban.replace(/\s+/g, "");
+      }
       const res = await getTargetAccountIds(data);
       setFoundAccounts(res);
       setErrorMessage("");
@@ -31,11 +35,6 @@ export const TransferFrom = () => {
   const onSubmit = async (data) => {
     try {
       setErrorMessage("");
-      if (isIban) {
-        delete data.mobile;
-      } else {
-        delete data.iban;
-      }
       data.fromAccount = accountId;
       data.amount = Number(data.amount);
       await transferAmount(data);
@@ -105,15 +104,6 @@ export const TransferFrom = () => {
                   />
                 </>
               )}
-
-              <label className="label">Beneficiary</label>
-              <input
-                type="text"
-                spellCheck="false"
-                className="input"
-                placeholder="Beneficiary"
-                {...register("beneficiary", { required: true })}
-              />
 
               <button className="btn btn-outline mt-4">Next</button>
             </fieldset>
