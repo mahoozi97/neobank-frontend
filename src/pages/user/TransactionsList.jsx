@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserTransactions } from "../../services/transaction";
 import { Loading } from "../../components/Loading";
-import { formatDate, getStatusColor } from "../../utils/helper";
+import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { LoadMore } from "../../components/LoadMore";
 import { Error } from "../../components/Error";
 
@@ -66,7 +66,7 @@ export const TransactionsList = ({ accountId }) => {
               <option value="">All</option>
               {status.map((s) => (
                 <option key={s} value={s}>
-                  {s}
+                  {capitalize(s)}
                 </option>
               ))}
             </select>
@@ -169,7 +169,7 @@ export const TransactionsList = ({ accountId }) => {
                             : null
                         }
                       >
-                        {isIncoming ? "Received" : trans.status}
+                        {isIncoming ? "Received" : capitalize(trans.status)}
                       </span>
                     </div>
 
