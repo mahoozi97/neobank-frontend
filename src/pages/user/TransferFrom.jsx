@@ -4,6 +4,7 @@ import { transferAmount } from "../../services/transaction";
 import { useEffect, useState } from "react";
 import { getTargetAccountIds } from "../../services/account";
 import { Loading } from "../../components/Loading";
+import { displayBalanceTemporarily } from "../../utils/helper";
 
 export const TransferFrom = () => {
   const { register, unregister, handleSubmit } = useForm();
@@ -11,6 +12,8 @@ export const TransferFrom = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
   const accountId = location.state?.accountId;
+  const balance = location.state?.balance;
+  const [showBalance, setShowBalance] = useState(false);
   const [isIban, setIsIban] = useState(false);
   const [foundAccounts, setFoundAccounts] = useState([]);
 
@@ -27,7 +30,7 @@ export const TransferFrom = () => {
 
   const onSubmit = async (data) => {
     try {
-      setErrorMessage("")
+      setErrorMessage("");
       if (isIban) {
         delete data.mobile;
       } else {
@@ -106,6 +109,7 @@ export const TransferFrom = () => {
               <label className="label">Beneficiary</label>
               <input
                 type="text"
+                spellCheck="false"
                 className="input"
                 placeholder="Beneficiary"
                 {...register("beneficiary", { required: true })}
@@ -125,6 +129,17 @@ export const TransferFrom = () => {
                 <legend className="fieldset-legend">Transfer To</legend>
 
                 {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
+                {!showBalance ? (
+                  <a
+                    className="link"
+                    onClick={() => displayBalanceTemporarily(setShowBalance)}
+                  >
+                    Show Balance
+                  </a>
+                ) : (
+                  <p className="text-2xl font-semibold">{balance} BHD</p>
+                )}
 
                 <fieldset className="fieldset pb-4">
                   <legend className="fieldset-legend">Select Account</legend>
@@ -158,8 +173,8 @@ export const TransferFrom = () => {
                     type="button"
                     className="btn btn-dash btn-error mt-4"
                     onClick={() => {
-                      setFoundAccounts([])
-                      window.location.reload()
+                      setFoundAccounts([]);
+                      window.location.reload();
                     }}
                   >
                     Back
