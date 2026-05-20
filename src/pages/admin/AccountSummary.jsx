@@ -7,48 +7,40 @@ import {
   ibanFormat,
 } from "../../utils/helper";
 import { Loading } from "../../components/Loading";
-import { getAccountByUserId, getAllTransactions } from "../../services/admin";
+import { getAccountByUserId } from "../../services/admin";
 import { NoAccountCard } from "../../components/NoAccountCard";
+import { TransactionsList } from "../user/TransactionsList";
 
 export const AccountSummary = () => {
   const location = useLocation();
   const userId = location.state?.userId;
   const [account, setAccount] = useState(null);
-  const [transactions, setTransactions] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [accountErrorMessage, setAccountErrorMessage] = useState("");
-  const [transactionsErrorMessage, setTransactionsErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const [statusFilter, setStatusFilter] = useState(null);
   const [date, setDate] = useState();
   const status = ["success", "rejected"];
 
+  const [accountId, setAccountId] = useState(null);
+
   const fetchAccountSummary = async () => {
     try {
+      setIsLoading(true);
       const accountData = await getAccountByUserId(userId);
       setAccount(accountData);
-      return accountData;
+      setAccountId(accountData ? accountData._id : null);
     } catch (error) {
-      setAccountErrorMessage(error.response?.data.error || error.message);
-    }
-  };
-
-  const fetchAccountTransactions = async (status, date) => {
-    try {
-      const accountData = await fetchAccountSummary();
-      const transData = await getAllTransactions(accountData._id, status, date);
-      setTransactions(transData);
-    } catch (error) {
-      setTransactionsErrorMessage(error.response?.data.error || error.message);
+      setErrorMessage(error.response?.data.error || error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAccountTransactions(statusFilter, date);
-  }, [statusFilter, date]);
+    fetchAccountSummary();
+  }, []);
 
   if (isLoading) {
     return (
@@ -106,9 +98,9 @@ export const AccountSummary = () => {
                 <div className="flex justify-center card-actions mt-2">
                   {/* close account action here  */}
 
-                  {accountErrorMessage && (
+                  {errorMessage && (
                     <p className="text-error bg-white pl-1 rounded-2xl">
-                      {accountErrorMessage}
+                      {errorMessage}
                     </p>
                   )}
                 </div>
@@ -120,161 +112,7 @@ export const AccountSummary = () => {
         <div className="divider"></div>
 
         {/* Transactions....... */}
-        {account && (
-          <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
-            {transactions ? (
-              <div className="flex space-x-2 justify-center">
-                <fieldset className="fieldset pl-4 w-30">
-                  <select
-                    defaultValue="sort by"
-                    className="select"
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option disabled={true}>sort by</option>
-                    <option value="">All</option>
-                    {status.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </fieldset>
-
-                <div className="pt-1">
-                  <input
-                    type="date"
-                    className="input"
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                </div>
-              </div>
-            ) : null}
-            <div className="hidden md:grid grid-cols-9 gap-4 px-6 py-4 bg-base-200/40 text-sm font-semibold text-base-content/70 border-b border-base-200">
-              {/* ------------------------------------------------------- */}
-              <div className="col-span-3">Transfer Details</div>
-              <div className="col-span-3 text-center">Status</div>
-              <div className="col-span-3 text-right">Amount</div>
-            </div>
-
-            {/* Transaction List */}
-            <ul className="divide-y divide-base-200">
-              {transactions ? (
-                transactions.length > 0 ? (
-                  transactions.map((trans) => {
-                    const isIncoming = trans.toAccount?._id === account._id;
-
-                    return (
-                      <li
-                        key={trans._id}
-                        className="flex flex-col md:grid md:grid-cols-9 md:items-center gap-4 px-4 py-4 md:px-6 transition-colors bg-base-100 odd:bg-base-300 hover:bg-neutral-focus"
-                      >
-                        {/* Details */}
-                        <div className="flex items-center gap-4 md:col-span-3">
-                          <div className="avatar placeholder shrink-0">
-                            {isIncoming ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="size-5 text-info"
-                              >
-                                <path d="M17 7L7 17" />
-                                <polyline points="17 17 7 17 7 7" />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="size-5"
-                              >
-                                <path d="M7 17L17 7" />
-                                <polyline points="7 7 17 7 17 17" />
-                              </svg>
-                            )}
-                          </div>
-
-                          <div className="flex-1">
-                            <div className="font-bold text-base-content text-sm md:text-base flex items-center gap-2">
-                              {trans.fromAccount?.nickname}
-                              <span className="text-xs opacity-30">▶</span>
-                              {trans.toAccount?.nickname || "Unknown"}
-                            </div>
-
-                            <div className="text-xs opacity-60 font-medium mt-0.5 flex items-center gap-2">
-                              <span className="md:hidden">
-                                {formatDate(trans.createdAt)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="md:hidden border-t border-base-200/50 my-1"></div>
-
-                        <div className="flex items-center justify-between md:justify-center md:col-span-3">
-                          <span className="md:hidden text-xs font-semibold opacity-50 uppercase">
-                            Status
-                          </span>
-                          <span
-                            className={`badge tooltip tooltip-left tooltip-error badge-soft ${trans.status === "rejected" && "cursor-help"} badge-sm md:badge-md font-medium ${getStatusColor(
-                              trans.status,
-                            )}`}
-                            data-tip={
-                              trans.status === "rejected"
-                                ? trans.rejectionReason
-                                : null
-                            }
-                          >
-                            {isIncoming ? "Received" : trans.status}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center justify-between md:justify-end md:flex-col md:items-end md:col-span-3">
-                          <span className="md:hidden text-xs font-semibold opacity-50 uppercase">
-                            Amount
-                          </span>
-                          <div className="text-right">
-                            <div className={`font-bold text-lg md:text-base `}>
-                              {trans.amount}
-                            </div>
-
-                            <div className="hidden md:block text-xs opacity-50 mt-1">
-                              {formatDate(trans.createdAt)}
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })
-                ) : (
-                  /* Empty State if Array is 0 */
-                  <div className="p-10 text-center opacity-60 italic">
-                    No transactions found for this account.
-                  </div>
-                )
-              ) : (
-                /* Loading / Error State */
-                <div className="p-10 text-center">
-                  {transactionsErrorMessage ? (
-                    <span className="text-error">
-                      {transactionsErrorMessage}
-                    </span>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
-              )}
-            </ul>
-          </div>
-        )}
+        {account && <TransactionsList accountId={accountId} />}
       </div>
     </>
   );

@@ -81,7 +81,7 @@ export const TransactionsList = ({ accountId }) => {
           </div>
         </div>
 
-        {transactions.length === 0 ? (
+        {transactions.length === 0 && !isLoading ? (
           <div className="p-10 text-center opacity-60 italic">
             No transactions found.
           </div>
