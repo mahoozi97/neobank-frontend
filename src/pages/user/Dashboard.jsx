@@ -13,6 +13,7 @@ import {
   ibanFormat,
 } from "../../utils/helper";
 import { OpenAccountCard } from "../../components/OpenAccountCard";
+import { Error } from "../../components/Error";
 
 export const Dashboard = () => {
   const [accounts, setAccounts] = useState([]);
@@ -61,7 +62,7 @@ export const Dashboard = () => {
   }
 
   if (errorMessage) {
-    return <span className="text-error">{errorMessage}</span>;
+    return <Error errorMessage={errorMessage} />
   }
 
   if (accounts.length === 0) {

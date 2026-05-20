@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getKycDocuments } from "../../services/KYC";
 import { capitalize, formatDate } from "../../utils/helper";
+import { Error } from "../../components/Error";
 
 export const Profile = ({ user }) => {
   const [document, setDocument] = useState(null);
@@ -26,12 +27,11 @@ export const Profile = ({ user }) => {
   }, []);
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex flex-col space-y-2 px-4 sm:px-0">
         <div className="card bg-info text-neutral-content w-100 max-w-full shadow-xl">
           <div className="card-body">
-            {errorMessage && (
-              <span className="bg-white p-1 text-error">{errorMessage}</span>
-            )}
             <p className="card-title">User Identity</p>
 
             <div className="space-y-1 text-sm">
@@ -55,13 +55,10 @@ export const Profile = ({ user }) => {
 
             <div className="flex justify-center">
               {!isLoading && (!document || document.status === "rejected") && (
-              <button
-                className="btn"
-                onClick={() => navigate("/upload-kyc")}
-              >
-                Verify My Identity
-              </button>
-            )}
+                <button className="btn" onClick={() => navigate("/upload-kyc")}>
+                  Verify My Identity
+                </button>
+              )}
             </div>
           </div>
         </div>

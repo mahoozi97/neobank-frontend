@@ -3,6 +3,7 @@ import { getAuditLogs } from "../../services/admin";
 import { formatDate } from "../../utils/helper";
 import { Loading } from "../../components/Loading";
 import { LoadMore } from "../../components/LoadMore";
+import { Error } from "../../components/Error";
 
 // Our badge dictionary and action list
 const ACTION_BADGES = {
@@ -25,8 +26,8 @@ const ALL_ACTIONS = Object.keys(ACTION_BADGES);
 
 export const AuditLogs = () => {
   const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("ssss");
 
   // Filtering and Load More states
   const [actionFilter, setActionFilter] = useState("");
@@ -46,7 +47,7 @@ export const AuditLogs = () => {
   };
 
   const fetchLogs = async () => {
-    setLoading(true);
+    setIsLoading(true);
     setErrorMessage("");
     try {
       const data = await getAuditLogs(page, actionFilter);
@@ -66,7 +67,7 @@ export const AuditLogs = () => {
     } catch (err) {
       setErrorMessage(err.response?.data?.error || "Failed to load logs");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -199,27 +200,23 @@ export const AuditLogs = () => {
               );
             })
           : /* Empty State */
-            !loading && (
+            !isLoading && (
               <div className="p-10 text-center opacity-60 italic">
                 No audit logs found.
               </div>
             )}
 
         {/* Loading / Error  */}
-        {loading && (
+        {isLoading && (
           <div className="p-10 text-center">
             <Loading />
           </div>
         )}
-        {errorMessage && (
-          <div className="p-4 text-center text-error font-medium">
-            {errorMessage}
-          </div>
-        )}
+        {errorMessage && <Error errorMessage={errorMessage} />}
       </ul>
 
       {/* Load More Button */}
-      {hasMore && !loading && logs?.length > 0 && (
+      {hasMore && !isLoading && logs?.length > 0 && (
         <LoadMore setPage={setPage} />
       )}
     </div>

@@ -11,6 +11,7 @@ import { Loading } from "../../components/Loading";
 import { getAccountByUserId } from "../../services/admin";
 import { NoAccountCard } from "../../components/NoAccountCard";
 import { TransactionsList } from "../user/TransactionsList";
+import { Error } from "../../components/Error";
 
 export const AccountSummary = () => {
   const location = useLocation();
@@ -58,9 +59,12 @@ export const AccountSummary = () => {
 
   return (
     <>
+    {errorMessage && <Error errorMessage={errorMessage} />}
+    
       <div className="flex flex-col items-center gap-1">
         {account && (
           <>
+          
             <div className="card bg-success text-neutral-content w-80 md:w-120 shadow-xl">
               <div className="card-body">
                 <div className="flex justify-between items-center">
@@ -102,15 +106,8 @@ export const AccountSummary = () => {
                     </span>
                   </div>
                 </div>
-                <div className="flex justify-center card-actions mt-2">
-                  {/* close account action here  */}
 
-                  {errorMessage && (
-                    <p className="text-error bg-white pl-1 rounded-2xl">
-                      {errorMessage}
-                    </p>
-                  )}
-                </div>
+                {/* close account action here  */}
               </div>
             </div>
           </>

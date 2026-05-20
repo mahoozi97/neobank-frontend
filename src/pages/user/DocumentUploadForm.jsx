@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { uploadKyc } from "../../services/KYC";
 import { useNavigate } from "react-router";
+import { Error } from "../../components/Error";
 
 export const DocumentUploadForm = ({ user }) => {
   const { register, handleSubmit } = useForm();
@@ -10,6 +11,7 @@ export const DocumentUploadForm = ({ user }) => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("");
       const formData = new FormData();
       formData.append("frontId", data.frontId[0]);
       formData.append("backId", data.backId[0]);
@@ -24,13 +26,13 @@ export const DocumentUploadForm = ({ user }) => {
 
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex justify-center">
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
               <legend className="fieldset-legend">Verify Idenity</legend>
-
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
               <fieldset className="fieldset">
                 <legend className="fieldset-legend">Front ID</legend>

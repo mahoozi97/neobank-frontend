@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Error } from "../../components/Error";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,6 +13,7 @@ export const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("");
       await axios.post(`${BASE_URL}/auth/sign-up`, data);
       navigate("/sign-in");
     } catch (error) {
@@ -21,12 +23,12 @@ export const SignUp = () => {
   };
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend className="fieldset-legend">Sign Up</legend>
-
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             <label className="label">Full Name</label>
             <p className="text-xs text-gray-400 italic">
