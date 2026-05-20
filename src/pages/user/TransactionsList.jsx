@@ -2,19 +2,32 @@ import { useEffect, useState } from "react";
 import { getUserTransactions } from "../../services/transaction";
 import { Loading } from "../../components/Loading";
 import { formatDate, getStatusColor } from "../../utils/helper";
+import { LoadMore } from "../../components/LoadMore";
 
 export const TransactionsList = ({ accountId }) => {
   const [transactions, setTransactions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState(null);
   const [date, setDate] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const status = ["success", "rejected"];
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchTransactions = async (status, date) => {
+  const fetchTransactions = async () => {
     try {
-      const data = await getUserTransactions(accountId, status, date);
-      setTransactions(data);
+      setIsLoading(true);
+      const data = await getUserTransactions(accountId, page, filter, date);
+      const newTransactions = data.transactions;
+
+      if (page === 1) {
+        setTransactions(newTransactions);
+      } else {
+        setTransactions((prev) => [...prev, ...newTransactions]);
+      }
+
+      // equal 10 -> true else false
+      setHasMore(newTransactions.length === 10);
     } catch (error) {
       console.log(error.response?.data.error || error.message);
       setErrorMessage(error.response?.data.error || error.message);
@@ -25,31 +38,29 @@ export const TransactionsList = ({ accountId }) => {
 
   useEffect(() => {
     if (!accountId || accountId === "null") return;
-    fetchTransactions(filter, date);
-  }, [accountId, filter, date]);
+    fetchTransactions();
+  }, [page, filter, date]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center">
-        <Loading />
-      </div>
-    );
-  }
-
-  if (errorMessage) {
-    return <span className="text-error">{errorMessage}</span>;
-  }
+  const handleFilterChange = (e) => {
+    if (e.target.id === "filter") {
+      setFilter(e.target.value);
+    } else {
+      setDate(e.target.value);
+    }
+    setPage(1);
+    setHasMore(true);
+  };
 
   return (
     <>
       <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
-        {/* 3. FIX: Filters are always rendered, even if the array is empty */}
         <div className="flex space-x-2 justify-center p-4">
           <fieldset className="fieldset pl-4 w-30">
             <select
               defaultValue=""
               className="select"
-              onChange={(e) => setFilter(e.target.value)}
+              id="filter"
+              onChange={handleFilterChange}
             >
               <option value="">All</option>
               {status.map((s) => (
@@ -64,12 +75,13 @@ export const TransactionsList = ({ accountId }) => {
             <input
               type="date"
               className="input"
-              onChange={(e) => setDate(e.target.value)}
+              id="date"
+              onChange={handleFilterChange}
             />
           </div>
         </div>
 
-        {transactions.length === 0 ? (
+        {transactions.length === 0 && !isLoading ? (
           <div className="p-10 text-center opacity-60 italic">
             No transactions found.
           </div>
@@ -176,8 +188,25 @@ export const TransactionsList = ({ accountId }) => {
                   </li>
                 );
               })}
+
+              {/* Loading / Error  */}
+              {isLoading && (
+                <div className="p-10 text-center">
+                  <Loading />
+                </div>
+              )}
+              {errorMessage && (
+                <div className="p-4 text-center text-error font-medium">
+                  {errorMessage}
+                </div>
+              )}
             </ul>
           </>
+        )}
+
+        {/* Load More Button */}
+        {hasMore && !isLoading && transactions?.length > 0 && (
+          <LoadMore setPage={setPage} />
         )}
       </div>
     </>

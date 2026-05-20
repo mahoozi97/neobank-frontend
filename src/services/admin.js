@@ -78,17 +78,6 @@ const rejectKyc = async (kycId, data) => {
   return res.data;
 };
 
-//  - - - -  - -  - - -  - - - - ↓ TRANSACTIONS ↓ - - - - -  - -  - - - - -  - - - -
-
-// All & filtring by satus and date
-const getAllTransactions = async (accountId, status, date) => {
-  const res = await axios.get(`${BASE_URL}/transactions/${accountId}`, {
-    ...authHeader(),
-    params: { status: status, date: date },
-  });
-  return res.data;
-};
-
 //  - - - -  - -  - - -  - - - - ↓ AUDIT LOGS ↓ - - - - -  - -  - - - - -  - - - -
 
 const getAuditLogs = async (page, action) => {
@@ -111,6 +100,5 @@ export {
   getKycByUserId,
   approveKyc,
   rejectKyc,
-  getAllTransactions,
   getAuditLogs,
 };
