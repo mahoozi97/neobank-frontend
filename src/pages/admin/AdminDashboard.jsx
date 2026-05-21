@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router";
 import { capitalize } from "../../utils/helper";
+import { Error } from "../../components/Error";
 
 export const AdminDashboard = () => {
   const [users, setUsers] = useState(null);
@@ -55,6 +56,8 @@ export const AdminDashboard = () => {
   }, [searchTerm]);
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="w-full bg-base-100 border border-base-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="flex justify-center pt-2 pb-2">
           <label className="input">
@@ -206,13 +209,9 @@ export const AdminDashboard = () => {
               </div>
             )
           ) : (
-            /* Loading / Error State */
+            /* Loading */
             <div className="p-10 text-center">
-              {errorMessage ? (
-                <span className="text-error">{errorMessage}</span>
-              ) : (
-                <Loading />
-              )}
+              <Loading />
             </div>
           )}
         </ul>

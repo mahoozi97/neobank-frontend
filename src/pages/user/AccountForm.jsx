@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { openAccount } from "../../services/account";
+import { Error } from "../../components/Error";
 
 export const AccountForm = () => {
   const { register, handleSubmit } = useForm();
@@ -10,6 +11,7 @@ export const AccountForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("")
       await openAccount(data);
       navigate("/dashboard");
     } catch (error) {
@@ -18,12 +20,12 @@ export const AccountForm = () => {
   };
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend className="fieldset-legend">Account Form</legend>
-
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             <label className="label">Nickname</label>
             <input

@@ -4,6 +4,7 @@ import { approveKyc, getKycByUserId, rejectKyc } from "../../services/admin";
 import { Loading } from "../../components/Loading";
 import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { useForm } from "react-hook-form";
+import { Error } from "../../components/Error";
 
 export const UserKyc = () => {
   const { register, handleSubmit } = useForm();
@@ -65,7 +66,7 @@ export const UserKyc = () => {
   }
 
   if (errorMessage) {
-    return <span className="text-error">{errorMessage}</span>;
+    return <Error errorMessage={errorMessage} />;
   }
 
   if (documents.length === 0) {

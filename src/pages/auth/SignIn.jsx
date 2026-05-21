@@ -2,6 +2,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { Error } from "../../components/Error";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,6 +13,7 @@ export const SignIn = ({ setUser, setAdmin }) => {
 
   const onSubmit = async (data) => {
     try {
+      setErrorMessage("")
       const response = await axios.post(`${BASE_URL}/auth/sign-in`, data);
       const token = response.data.token;
       localStorage.setItem("token", token);
@@ -29,12 +31,12 @@ export const SignIn = ({ setUser, setAdmin }) => {
   };
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend className="fieldset-legend">Sign In</legend>
-
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             <label className="label">Email</label>
             <input

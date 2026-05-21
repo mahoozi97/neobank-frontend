@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getTargetAccountIds } from "../../services/account";
 import { Loading } from "../../components/Loading";
 import { displayBalanceTemporarily } from "../../utils/helper";
+import { Error } from "../../components/Error";
 
 export const TransferFrom = () => {
   const { register, unregister, handleSubmit } = useForm();
@@ -19,7 +20,7 @@ export const TransferFrom = () => {
 
   const findReceipienet = async (data) => {
     try {
-      setErrorMessage("")
+      setErrorMessage("");
       if (data.iban) {
         data.iban = data.iban.replace(/\s+/g, "");
       }
@@ -49,6 +50,8 @@ export const TransferFrom = () => {
 
   return (
     <>
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       {foundAccounts.length === 0 && (
         <div className="flex justify-center">
           <form onSubmit={handleSubmit(findReceipienet)}>
@@ -56,8 +59,6 @@ export const TransferFrom = () => {
               <legend className="fieldset-legend">
                 Enter Receipienet Info
               </legend>
-
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
               <div className="tabs tabs-box flex justify-center">
                 <input
