@@ -5,8 +5,10 @@ import { Loading } from "../../components/Loading";
 import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { useForm } from "react-hook-form";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const UserKyc = () => {
+  useDocumentTitle("KYC | Admin");
   const { register, handleSubmit } = useForm();
   const location = useLocation();
   const userId = location.state?.userId;

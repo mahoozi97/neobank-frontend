@@ -6,8 +6,10 @@ import { getTargetAccountIds } from "../../services/account";
 import { Loading } from "../../components/Loading";
 import { displayBalanceTemporarily } from "../../utils/helper";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const TransferFrom = () => {
+  useDocumentTitle(`Transfer Form`);
   const { register, unregister, handleSubmit } = useForm();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");

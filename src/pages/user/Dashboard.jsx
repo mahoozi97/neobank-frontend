@@ -15,8 +15,10 @@ import {
 import { OpenAccountCard } from "../../components/OpenAccountCard";
 import { Error } from "../../components/Error";
 import { SuccessAlert } from "../../components/SuccessAlert";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const Dashboard = () => {
+  useDocumentTitle("Dashboard");
   const [accounts, setAccounts] = useState([]);
   const [accountId, setAccountId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

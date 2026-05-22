@@ -4,6 +4,7 @@ import { Loading } from "../../components/Loading";
 import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { LoadMore } from "../../components/LoadMore";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const TransactionsList = ({ accountId }) => {
   const [transactions, setTransactions] = useState([]);

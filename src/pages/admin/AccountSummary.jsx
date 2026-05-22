@@ -12,8 +12,10 @@ import { getAccountByUserId } from "../../services/admin";
 import { NoAccountCard } from "../../components/NoAccountCard";
 import { TransactionsList } from "../user/TransactionsList";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const AccountSummary = () => {
+  useDocumentTitle("Account Summary | Admin");
   const location = useLocation();
   const userId = location.state?.userId;
   const [account, setAccount] = useState(null);
@@ -59,12 +61,11 @@ export const AccountSummary = () => {
 
   return (
     <>
-    {errorMessage && <Error errorMessage={errorMessage} />}
-    
+      {errorMessage && <Error errorMessage={errorMessage} />}
+
       <div className="flex flex-col items-center gap-1">
         {account && (
           <>
-          
             <div className="card bg-success text-neutral-content w-80 md:w-120 shadow-xl">
               <div className="card-body">
                 <div className="flex justify-between items-center">

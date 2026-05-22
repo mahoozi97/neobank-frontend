@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 export const Homepage = ({ user, admin }) => {
+  useDocumentTitle("Home | NeoBank");
   const navigate = useNavigate();
 
   const navigateTo = () => {
