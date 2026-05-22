@@ -3,8 +3,10 @@ import { useNavigate } from "react-router";
 import { getKycDocuments } from "../../services/KYC";
 import { capitalize, formatDate } from "../../utils/helper";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const Profile = ({ user }) => {
+  useDocumentTitle(`Profile`);
   const [document, setDocument] = useState(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);

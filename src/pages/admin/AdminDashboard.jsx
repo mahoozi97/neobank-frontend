@@ -6,8 +6,10 @@ import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router";
 import { capitalize } from "../../utils/helper";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const AdminDashboard = () => {
+  useDocumentTitle(`Dashboard | Admin`);
   const [users, setUsers] = useState(null);
   const [searchTerm, setSearchTerm] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");

@@ -3,10 +3,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const SignUp = () => {
+  useDocumentTitle(`Sign Up`);
   const [errorMessage, setErrorMessage] = useState("");
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();

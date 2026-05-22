@@ -4,6 +4,7 @@ import { formatDate } from "../../utils/helper";
 import { Loading } from "../../components/Loading";
 import { LoadMore } from "../../components/LoadMore";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 // Our badge dictionary and action list
 const ACTION_BADGES = {
@@ -25,6 +26,7 @@ const ACTION_BADGES = {
 const ALL_ACTIONS = Object.keys(ACTION_BADGES);
 
 export const AuditLogs = () => {
+  useDocumentTitle(`Audit Logs | Admin`);
   const [logs, setLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("ssss");

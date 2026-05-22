@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { uploadKyc } from "../../services/KYC";
 import { useNavigate } from "react-router";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const DocumentUploadForm = ({ user }) => {
+  useDocumentTitle("Upload Identity");
   const { register, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();

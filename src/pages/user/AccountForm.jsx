@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { openAccount } from "../../services/account";
 import { Error } from "../../components/Error";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export const AccountForm = () => {
+  useDocumentTitle(`Account Form`);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
