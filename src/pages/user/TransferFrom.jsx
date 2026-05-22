@@ -38,9 +38,17 @@ export const TransferFrom = () => {
       setErrorMessage("");
       data.fromAccount = accountId;
       data.amount = Number(data.amount);
-      await transferAmount(data);
+      const res = await transferAmount(data);
+      sessionStorage.setItem("success", JSON.stringify(res));
       navigate("/dashboard");
     } catch (error) {
+      if (error.status === 422) {
+        sessionStorage.setItem(
+          "failed",
+          error.response?.data.error || "Transfer failed!",
+        );
+        return navigate("/dashboard");
+      }
       console.log(error.response?.data.error || error.message);
       setErrorMessage(error.response?.data.error || error.message);
     }
@@ -118,8 +126,6 @@ export const TransferFrom = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
                 <legend className="fieldset-legend">Transfer To</legend>
-
-                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
                 {!showBalance ? (
                   <a

@@ -43,7 +43,9 @@ const capitalize = (str) => {
 
 const displayBalanceTemporarily = (setShowBalance) => {
   setShowBalance(true);
-  setTimeout(() => setShowBalance(false), 3000);
+  let timeoutId;
+  timeoutId = setTimeout(() => setShowBalance(false), 3000);
+  return () => clearTimeout(timeoutId);
 };
 
 export {
