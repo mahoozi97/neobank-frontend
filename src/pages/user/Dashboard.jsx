@@ -14,6 +14,7 @@ import {
 } from "../../utils/helper";
 import { OpenAccountCard } from "../../components/OpenAccountCard";
 import { Error } from "../../components/Error";
+import { SuccessAlert } from "../../components/SuccessAlert";
 
 export const Dashboard = () => {
   const [accounts, setAccounts] = useState([]);
@@ -22,6 +23,14 @@ export const Dashboard = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showBalance, setShowBalance] = useState(false);
   const navigate = useNavigate();
+
+  // transacion alert!
+  const [successMessage, setSuccessMessage] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("success")) || null;
+  });
+  const [failureMessage, setFailureMessage] = useState(() => {
+    return sessionStorage.getItem("failed") || null;
+  });
 
   const fetchAccountSummary = async () => {
     try {
@@ -51,6 +60,19 @@ export const Dashboard = () => {
 
   useEffect(() => {
     fetchAccountSummary();
+
+    sessionStorage.removeItem("success");
+    sessionStorage.removeItem("failed");
+
+    let timeoutId;
+
+    if (successMessage) {
+      timeoutId = setTimeout(() => setSuccessMessage(null), 3000);
+    } else if (failureMessage) {
+      timeoutId = setTimeout(() => setFailureMessage(null), 3000);
+    }
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   if (isLoading) {
@@ -62,7 +84,7 @@ export const Dashboard = () => {
   }
 
   if (errorMessage) {
-    return <Error errorMessage={errorMessage} />
+    return <Error errorMessage={errorMessage} />;
   }
 
   if (accounts.length === 0) {
@@ -70,6 +92,11 @@ export const Dashboard = () => {
   }
   return (
     <>
+      {successMessage && (
+        <SuccessAlert amount={successMessage.amount} to={successMessage.to} />
+      )}
+
+      {failureMessage && <Error errorMessage={failureMessage} />}
       <div className="flex flex-col items-center gap-1">
         {accounts.map((account) => (
           <div
