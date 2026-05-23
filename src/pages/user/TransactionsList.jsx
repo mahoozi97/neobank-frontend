@@ -5,6 +5,7 @@ import { capitalize, formatDate, getStatusColor } from "../../utils/helper";
 import { LoadMore } from "../../components/LoadMore";
 import { Error } from "../../components/Error";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import { DatePicker } from "antd";
 
 export const TransactionsList = ({ accountId }) => {
   const [transactions, setTransactions] = useState([]);
@@ -44,11 +45,14 @@ export const TransactionsList = ({ accountId }) => {
   }, [page, filter, date]);
 
   const handleFilterChange = (e) => {
-    if (e.target.id === "filter") {
-      setFilter(e.target.value);
-    } else {
-      setDate(e.target.value);
-    }
+    setFilter(e.target.value);
+    setPage(1);
+    setHasMore(true);
+  };
+
+  // _ for ignore the first param
+  const handleDateChange = (_, dateString) => {
+    setDate(dateString);
     setPage(1);
     setHasMore(true);
   };
@@ -74,11 +78,9 @@ export const TransactionsList = ({ accountId }) => {
           </fieldset>
 
           <div className="pt-1">
-            <input
-              type="date"
-              className="input"
-              id="date"
-              onChange={handleFilterChange}
+            <DatePicker
+              className="input date-picker"
+              onChange={handleDateChange}
             />
           </div>
         </div>
